@@ -11,16 +11,18 @@
   <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
   <script type="text/javascript">
     VK.init({
-      apiId: 51414147
+      apiId: 51414147,
+      onlyWidgets: true
     });
   </script>
 </head>
 
 <body>
   <div id="vk_auth"></div>
+  <div id="vk_comments"></div>
   <script type="text/javascript">
     VK.Widgets.Auth('vk_auth', {});
-  </script>
+    VK.Widgets.Comments('vk_comments');</script>
 </body>
 
 </html>
