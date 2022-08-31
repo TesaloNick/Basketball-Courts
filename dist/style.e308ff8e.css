@@ -1,0 +1,15 @@
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.card {
+  width: 150px;
+  height: 200px;
+  background-color: red;
+}
+
+
+/*# sourceMappingURL=/style.e308ff8e.css.map */
