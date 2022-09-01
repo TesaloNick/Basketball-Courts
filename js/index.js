@@ -3,7 +3,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoidGVzYWxvbmljayIsImEiOiJjbDdodmdheHIwaWIyM3Vtb
 const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
 const lon = 27.55689040736249;
 const lat = 53.89733609094718;
-let profile = 'cycling';
+let profile = 'walking';
 let minutes = 10;
 let coordinates = ''
 
@@ -33,7 +33,8 @@ async function getIso(lat, lon) {
     { method: 'GET' }
   );
   const data = await query.json();
-  map.getSource('iso').setData(data);
+  console.log(data);
+  await map.getSource('iso').setData(data);
 }
 
 // params.addEventListener('change', (event) => {
@@ -106,11 +107,10 @@ map.on('load', async () => {
   await geocoder.on('result', async (event) => {
     await map.getSource('single-point').setData(event.result.geometry)
     coordinates = await event.result.geometry.coordinates
-    console.log(coordinates[0]);
-    await getIso(coordinates[0], coordinates[1]);
+    await getIso(coordinates[1], coordinates[0]);
   });
 
-  // await getIso(lat, lon);
+  await getIso(lat, lon);
 });
 
 // async function getCoordinates() {
