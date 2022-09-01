@@ -1,11 +1,11 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoidGVzYWxvbmljayIsImEiOiJjbDdodmdheHIwaWIyM3VtbTJjaXNreGt2In0.Er4yPKDyLrAYKJn5rRpXoQ';
 
-// Create variables to use in getIso()
 const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
-const lon = 26.102947703416774;
-const lat = 52.1154452687647;
+const lon = 27.55689040736249;
+const lat = 53.89733609094718;
 let profile = 'cycling';
 let minutes = 10;
+let coordinates = ''
 
 const map = new mapboxgl.Map({
   container: 'map', // container id
@@ -14,45 +14,52 @@ const map = new mapboxgl.Map({
   zoom: 11.5 // starting zoom
 });
 
-// Target the params form in the HTML
-const params = document.getElementById('params');
+// const params = document.getElementById('params');
 
-
-// Set up a marker that you can use to show the query's coordinates
 const marker = new mapboxgl.Marker({
   'color': '#314ccd'
-});
+})
+  .setLngLat([lon, lat]) // Marker [lng, lat] coordinates
+  .addTo(map); // Add the marker to the map;
 
-// Create a LngLat object to use in the marker initialization
-// https://docs.mapbox.com/mapbox-gl-js/api/#lnglat
 const lngLat = {
   lon: lon,
   lat: lat
 };
 
-// Create a function that sets up the Isochrone API query then makes a fetch call
-async function getIso() {
+async function getIso(lat, lon) {
   const query = await fetch(
     `${urlBase}${profile}/${lon},${lat}?contours_minutes=${minutes}&polygons=true&access_token=${mapboxgl.accessToken}`,
     { method: 'GET' }
   );
   const data = await query.json();
-  // Set the 'iso' source's data to what's returned by the API query
   map.getSource('iso').setData(data);
 }
 
-// When a user changes the value of profile or duration by clicking a button, change the parameter's value and make the API query again
-params.addEventListener('change', (event) => {
-  if (event.target.name === 'profile') {
-    profile = event.target.value;
-  } else if (event.target.name === 'duration') {
-    minutes = event.target.value;
+// params.addEventListener('change', (event) => {
+//   if (event.target.name === 'profile') {
+//     profile = event.target.value;
+//   } else if (event.target.name === 'duration') {
+//     minutes = event.target.value;
+//   }
+//   getIso();
+// });
+
+const geocoder = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken, // Set the access token
+  mapboxgl: mapboxgl, // Set the mapbox-gl instance
+  marker: true, // Do not use the default marker style
+  placeholder: 'Search your place', // Placeholder text for the search bar
+  // bbox: [-122.30937, 37.84214, -122.23715, 37.89838], // Boundary for Berkeley
+  proximity: {
+    // longitude: 27.55689040736249,
+    // latitude: 53.89733609094718
   }
-  getIso();
 });
 
-map.on('load', () => {
-  // When the map loads, add the source and layer
+map.addControl(geocoder);
+
+map.on('load', async () => {
   map.addSource('iso', {
     type: 'geojson',
     data: {
@@ -75,9 +82,47 @@ map.on('load', () => {
     'poi-label'
   );
 
-  // Initialize the marker at the query coordinates
+  map.addSource('single-point', {
+    'type': 'geojson',
+    'data': {
+      'type': 'FeatureCollection',
+      'features': []
+    }
+  });
+
+  map.addLayer({
+    id: 'point',
+    source: 'single-point',
+    type: 'circle',
+    paint: {
+      'circle-radius': 10,
+      'circle-color': '#448ee4'
+    }
+  })
+
+
   marker.setLngLat(lngLat).addTo(map);
 
-  // Make the API call
-  getIso();
+  await geocoder.on('result', async (event) => {
+    await map.getSource('single-point').setData(event.result.geometry)
+    coordinates = await event.result.geometry.coordinates
+    console.log(coordinates[0]);
+    await getIso(coordinates[0], coordinates[1]);
+  });
+
+  // await getIso(lat, lon);
 });
+
+// async function getCoordinates() {
+//   let url = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${coordinates[0]},${coordinates[1]}.json?proximity=ip&types=place%2Cpostcode%2Caddress&access_token=${mapboxgl.accessToken}`)
+//     .then(res => res.json())
+//     .then(res => console.log(res))
+//   // .then(res => res.features.map(item => console.log(item.geometry.coordinates)))
+//   // console.log(url);
+
+//   // let coordinates = await fetch(url)
+//   //   .then(res => res)
+//   //   .then(res => console.log(res))
+
+// }
+// getCoordinates()
