@@ -1,19 +1,144 @@
 body {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @media (max-width: 1230px) {
+    max-width: 100%;
+    padding: 0 15px;
+  }
+}
+
+.header {
+  &__logo {
+    text-align: center;
+    border-bottom: 2px solid;
+    padding: 25px 0;
+  }
+
+  img {
+    width: 152px;
+    height: 77px;
+  }
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  // gap: 10px;
+  overflow: hidden;
+
+  &__left {
+    padding: 15px;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    background: #e5e5e5;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 300px;
+    z-index: 2;
+    margin-right: 10px;
+  }
+
+  &__right {
+    position: relative;
+  }
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__header {
+  }
+
+  .where,
+  .from {
+    width: 100%;
+    height: 36px;
+    // padding: 5px;
+    border-radius: 3px;
+    border: none;
+  }
+}
+
+#params {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  input:checked + .toggle {
+    background: #757d82;
+    color: #fff;
+  }
+
+  .toggle-group {
+    .toggle-container {
+      select {
+      }
+    }
+  }
+}
+
+.countour {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  select {
+    width: 100%;
+    text-align: center;
+    padding: 5px;
+    border-radius: 3px;
+    border: 0;
+
+    option {
+      border: 0;
+    }
+  }
 }
 
 #map {
-  position: absolute;
-  top: 0;
-  bottom: 0;
   width: 100%;
   height: 100%;
-}
+  position: relative !important;
+  overflow: visible !important;
 
-.wrapper {
-  max-width: 1000px;
-  height: 100vh;
-  margin: 0 auto;
-  position: relative;
+  .mapboxgl-control-container {
+    .mapboxgl-ctrl-top-right {
+      right: auto !important;
+      top: 39px;
+      left: -285px;
+      // z-index: 1;
+      width: 270px;
+
+      .mapboxgl-ctrl-geocoder {
+        width: 100%;
+
+        @media (max-width: 640px) {
+          input {
+            height: 36px !important;
+            font-size: 15px;
+          }
+          .mapboxgl-ctrl-geocoder--icon {
+            width: 20px;
+            height: 20px;
+            top: 8px;
+            left: 7px;
+          }
+        }
+      }
+    }
+  }
 }

@@ -8,8 +8,8 @@ let minutes = 5;
 let coordinates = ''
 
 const map = new mapboxgl.Map({
-  container: 'map', // container id
-  style: 'mapbox://styles/mapbox/streets-v11', // stylesheet
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v11',
   center: [lon, lat],
   zoom: 10
 });
@@ -34,7 +34,7 @@ async function getIso(lat, lon) {
   );
   const data = await query.json();
   // console.log(data.features[0].geometry.coordinates[0]);
-  console.log(data);
+  // console.log(data);
   await map.getSource('iso').setData(data);
 }
 
@@ -46,31 +46,24 @@ async function getIso(lat, lon) {
 //   }
 //   getIso();
 // });
+let from = document.querySelector('.from')
+let inputs = document.querySelector('.inputs')
 
 const geocoderFrom = new MapboxGeocoder({
-  accessToken: mapboxgl.accessToken, // Set the access token
-  // mapboxgl: mapboxgl, // Set the mapbox-gl instance
-  marker: true, // Do not use the default marker style
-  placeholder: 'From', // Placeholder text for the search bar
-  // bbox: [-122.30937, 37.84214, -122.23715, 37.89838], // Boundary for Berkeley
-  // proximity: {
-  // longitude: 27.55689040736249,
-  // latitude: 53.89733609094718
-  // }
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl,
+  marker: true,
+  placeholder: 'From',
 });
 
 const geocoderWhere = new MapboxGeocoder({
-  accessToken: mapboxgl.accessToken, // Set the access token
-  mapboxgl: mapboxgl, // Set the mapbox-gl instance
-  marker: true, // Do not use the default marker style
-  placeholder: 'Where', // Placeholder text for the search bar
-  // bbox: [-122.30937, 37.84214, -122.23715, 37.89838], // Boundary for Berkeley
-  // proximity: {
-  // longitude: 27.55689040736249,
-  // latitude: 53.89733609094718
-  // }
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl,
+  marker: true,
+  placeholder: 'Where',
 });
 
+console.log(geocoderWhere, from);
 map.addControl(geocoderFrom);
 map.addControl(geocoderWhere);
 

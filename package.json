@@ -1,0 +1,23 @@
+{
+  "name": "delivery-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "parcel index.html --open --port 3000",
+    "db": "json-server --watch db/db.json --port 3001"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TesaloNick/Delivery-App.git"
+  },
+  "author": "Kirill feat Nikolay",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TesaloNick/Delivery-App/issues"
+  },
+  "homepage": "https://github.com/TesaloNick/Delivery-App#readme",
+  "dependencies": {
+    "json-server": "^0.17.0"
+  }
+}
