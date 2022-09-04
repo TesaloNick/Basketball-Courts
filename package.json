@@ -19,5 +19,8 @@
   "homepage": "https://github.com/TesaloNick/Delivery-App#readme",
   "dependencies": {
     "json-server": "^0.17.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.7.0"
   }
 }
