@@ -5,6 +5,9 @@
   <meta charset="utf-8" />
   <title>Delivery App</title>
   <link rel="stylesheet" href="./css/style.scss">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
@@ -33,17 +36,21 @@
   <!-- Import Turf & Polyline -->
   <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.1.1/polyline.js"></script>
-  <script defer src="./js/index.js"></script>
+  <script defer type="module" src="./js/index.js"></script>
 </head>
 
 <body>
 
   <div class="container">
     <header class="header">
+      <h1>BASKETBALL</h1>
       <div class="header__logo">
-        <img class="logo" src="./images/Group 11.png" alt="logo">
+        <img class="logo" src="./images/pngwing.com.png" alt="logo">
       </div>
+      <h1>COURTS</h1>
     </header>
+    <div class="courts"></div>
+
     <main class="main">
       <div class="main__left">
         <div class="inputs">
@@ -99,11 +106,24 @@
         <div id="map"></div>
       </div>
     </main>
-    <div class="list">
+    <!-- <div class="list">
       <h3>Favourites addresses</h3>
       <ul class="list__ul">
         <li class="list__li"></li>
       </ul>
+    </div> -->
+  </div>
+
+  <div class="modal">
+    <div class="modal__wrapper-close"></div>
+    <div class="modal__wrapper">
+      <!-- <div class="modal__close"><img src="./images/close.svg" alt=""></div>
+      <div class="modal__img"><img src="" alt=""></div>
+      <h2 class="modal__name"></h2>
+      <p class="modal__address"></p>
+      <ul class="modal__schedule">
+        <li></li>
+      </ul> -->
     </div>
   </div>
 </body>

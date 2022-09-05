@@ -1,8 +1,130 @@
 {
-  "points": [
+  "courts": [
     {
-      "name": "name",
-      "address": "Пинск"
+      "id": 1,
+      "name": "Баскетбольная площадка №1",
+      "address": "ул. Слесарная 3, Минск",
+      "coordinates": {
+        "lon": 27.58331080033668,
+        "lat": 53.90013370716862
+      },
+      "schedule": [
+        {
+          "day": "Monday",
+          "time": "24 hours per day"
+        },
+        {
+          "day": "Tuesday",
+          "time": "24 hours per day"
+        },
+        {
+          "day": "Wednesday",
+          "time": "24 hours per day"
+        },
+        {
+          "day": "Thursday",
+          "time": "24 hours per day"
+        },
+        {
+          "day": "Friday",
+          "time": "24 hours per day"
+        },
+        {
+          "day": "Saturday",
+          "time": "24 hours per day"
+        },
+        {
+          "day": "Sunday",
+          "time": "24 hours per day"
+        }
+      ],
+      "photos": [
+        "https://rezipol.ru/upload/iblock/969/969af34281c21b438bc707aa6f4bb809.jpg"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Баскетбольная площадка №2",
+      "address": "ул. Голубева 24-26, Минск",
+      "coordinates": {
+        "lon": 27.462879365118532,
+        "lat": 53.8672795281274
+      },
+      "schedule": [
+        {
+          "day": "Monday",
+          "time": "24 hours per day"
+        },
+        {
+          "day": "Tuesday",
+          "time": "24 hours per day"
+        },
+        {
+          "day": "Wednesday",
+          "time": "24 hours per day"
+        },
+        {
+          "day": "Thursday",
+          "time": "24 hours per day"
+        },
+        {
+          "day": "Friday",
+          "time": "24 hours per day"
+        },
+        {
+          "day": "Saturday",
+          "time": "24 hours per day"
+        },
+        {
+          "day": "Sunday",
+          "time": "24 hours per day"
+        }
+      ],
+      "photos": [
+        "https://media.admagazine.ru/photos/61e82bcb5d88e9e55b2e815c/master/w_1600,c_limit/3.jpg"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Баскетбольная площадка №3",
+      "address": "ул. Ильи Копиевича 3, Минск",
+      "coordinates": {
+        "lon": 27.671695952445685,
+        "lat": 53.93083736190156
+      },
+      "schedule": [
+        {
+          "day": "Monday",
+          "time": "since 8am to 10p"
+        },
+        {
+          "day": "Tuesday",
+          "time": "since 8am to 10pm"
+        },
+        {
+          "day": "Wednesday",
+          "time": "since 8am to 10pm"
+        },
+        {
+          "day": "Thursday",
+          "time": "since 8am to 10pm"
+        },
+        {
+          "day": "Friday",
+          "time": "since 8am to 10pm"
+        },
+        {
+          "day": "Saturday",
+          "time": "since 8am to 10pm"
+        },
+        {
+          "day": "Sunday",
+          "time": "since 8am to 10pm"
+        }
+      ],
+      "photos": [
+        "https://media.admagazine.ru/photos/61e82d1e9bd4b5636aa50b89/master/w_1600,c_limit/10.jfif"
+      ]
     }
   ],
   "comments": [

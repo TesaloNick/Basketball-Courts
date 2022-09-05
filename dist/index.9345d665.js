@@ -19,7 +19,7 @@ async function getIso(lat, lon) {
         method: "GET"
     });
     const data = await query.json();
-    // console.log(data);
+    console.log(data);
     await map.getSource("iso").setData(data);
 }
 let from = document.querySelector(".from");
@@ -28,7 +28,7 @@ const geocoderFrom = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
     mapboxgl: mapboxgl,
     marker: true,
-    placeholder: "From"
+    placeholder: "address"
 });
 // const geocoderWhere = new MapboxGeocoder({
 //   accessToken: mapboxgl.accessToken,
@@ -73,9 +73,14 @@ map.on("load", ()=>{
             "circle-color": "#448ee4"
         }
     });
-    // marker.setLngLat(lngLat).addTo(map);
     geocoderFrom.on("result", (event)=>{
-        // await map.getSource('single-point').setData(event.result.geometry)
+        const list = document.querySelector(".list__ul");
+        const inputName = document.querySelector(".inputs__name");
+        const li = document.createElement("li");
+        li.dataset.address = event.result.place_name;
+        li.innerHTML = inputName.value;
+        li.classList.add("list__li");
+        list.append(li);
         coordinates = event.result.geometry.coordinates;
         getIso(coordinates[1], coordinates[0]);
     });
@@ -135,7 +140,7 @@ map.on("load", ()=>{
         }
     });
 });
-//_________________________________________________________
+//________________________________________________________________________________________________
 const directions = new MapboxDirections({
     accessToken: mapboxgl.accessToken,
     unit: "metric",
