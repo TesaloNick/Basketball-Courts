@@ -1,14 +1,8 @@
 {
-  "columns": [
+  "points": [
     {
-      "id": 1,
-      "head": "as",
-      "tasks": [
-        {
-          "content": "asdasd",
-          "id": 1
-        }
-      ]
+      "name": "name",
+      "address": "Пинск"
     }
   ],
   "comments": [

@@ -26,9 +26,9 @@
   <!-- Import Mapbox GL Directions -->
   <script
     src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
-  <link rel="stylesheet"
+  <!-- <link rel="stylesheet"
     href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
-    type="text/css" />
+    type="text/css" /> -->
 
   <!-- Import Turf & Polyline -->
   <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
@@ -47,7 +47,8 @@
     <main class="main">
       <div class="main__left">
         <div class="inputs">
-          <h3 class="inputs__header">Parameters</h3>
+          <h3 class="inputs__header">Save place</h3>
+          <input type="text" class="inputs__name" placeholder="place name">
           <div class="from"></div>
           <!-- <div class="where"></div> -->
         </div>
@@ -93,13 +94,17 @@
             <option value="0">10000 meters increments</option>
           </select>
         </div>
-        </form>
       </div>
       <div class="main__right">
         <div id="map"></div>
       </div>
-  </div>
-  </main>
+    </main>
+    <div class="list">
+      <h3>Favourites addresses</h3>
+      <ul class="list__ul">
+        <li class="list__li"></li>
+      </ul>
+    </div>
   </div>
 </body>
 

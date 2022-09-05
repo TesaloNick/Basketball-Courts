@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>Delivery App</title>
-  <link rel="stylesheet" href="/index.f9a52ea2.css">
+  <link rel="stylesheet" href="/style.6b54f5b7.css">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
@@ -22,26 +22,29 @@
 
   <!-- Import Mapbox GL Directions -->
   <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css" type="text/css">
+  <!-- <link rel="stylesheet"
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
+    type="text/css" /> -->
 
   <!-- Import Turf & Polyline -->
   <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.1.1/polyline.js"></script>
-  <script defer="" src="/index.9345d665.js"></script>
-</head>
+  <script defer="" src="/js.00a46daa.js"></script>
+<script src="/style.6b54f5b7.js"></script></head>
 
 <body>
 
   <div class="container">
     <header class="header">
       <div class="header__logo">
-        <img class="logo" src="/Group%2011.acf6f82f.png" alt="logo">
+        <img class="logo" src="/Group 11.47d7b555.png" alt="logo">
       </div>
     </header>
     <main class="main">
       <div class="main__left">
         <div class="inputs">
-          <h3 class="inputs__header">Parameters</h3>
+          <h3 class="inputs__header">Save place</h3>
+          <input type="text" class="inputs__name" placeholder="place name">
           <div class="from"></div>
           <!-- <div class="where"></div> -->
         </div>
@@ -87,14 +90,18 @@
             <option value="0">10000 meters increments</option>
           </select>
         </div>
-        
       </div>
       <div class="main__right">
         <div id="map"></div>
       </div>
-  </main></div>
-  
-  
-<script src="/Delivery-App.3464ddca.js"></script></body>
+    </main>
+    <div class="list">
+      <h3>Favourites addresses</h3>
+      <ul class="list__ul">
+        <li class="list__li"></li>
+      </ul>
+    </div>
+  </div>
+</body>
 
 </html>
