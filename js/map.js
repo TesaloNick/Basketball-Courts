@@ -1,18 +1,15 @@
-export default function renderMap() {
+export default function renderMap(lat, lon) {
   mapboxgl.accessToken = 'pk.eyJ1IjoidGVzYWxvbmljayIsImEiOiJjbDdodmdheHIwaWIyM3VtbTJjaXNreGt2In0.Er4yPKDyLrAYKJn5rRpXoQ';
 
   const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
-  const lon = 27.55689040736249;
-  const lat = 53.89733609094718;
-  let profile = 'cycling';
-  let minutes = 5;
-  let coordinates = ''
+  let profile = 'walking';
+  let minutes = 1;
 
   const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
     center: [lon, lat],
-    zoom: 10
+    zoom: 13
   });
 
   async function getIso(lat, lon) {
@@ -21,19 +18,28 @@ export default function renderMap() {
       { method: 'GET' }
     );
     const data = await query.json();
-    console.log(data);
+    // console.log(data);
     await map.getSource('iso').setData(data);
   }
 
-  let from = document.querySelector('.from')
-  let inputs = document.querySelector('.inputs')
-
-  const geocoderFrom = new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    mapboxgl: mapboxgl,
-    marker: true,
-    placeholder: 'address',
+  const marker = new mapboxgl.Marker({
+    color: '#314ccd'
   });
+
+  const lngLat = {
+    lon: lon,
+    lat: lat
+  };
+
+  marker.setLngLat(lngLat).addTo(map);
+
+
+  // const geocoderFrom = new MapboxGeocoder({
+  //   accessToken: mapboxgl.accessToken,
+  //   mapboxgl: mapboxgl,
+  //   marker: true,
+  //   placeholder: 'address',
+  // });
 
   // const geocoderWhere = new MapboxGeocoder({
   //   accessToken: mapboxgl.accessToken,
@@ -43,7 +49,7 @@ export default function renderMap() {
   // });
 
   // console.log(geocoderWhere, from);
-  map.addControl(geocoderFrom);
+  // map.addControl(geocoderFrom);
   // map.addControl(geocoderWhere);
 
   map.on('load', () => {
@@ -54,7 +60,6 @@ export default function renderMap() {
         'features': []
       }
     });
-
     map.addLayer(
       {
         'id': 'isoLayer',
@@ -75,7 +80,6 @@ export default function renderMap() {
         'features': []
       }
     });
-
     map.addLayer({
       id: 'point',
       source: 'single-point',
@@ -85,20 +89,18 @@ export default function renderMap() {
         'circle-color': '#448ee4'
       }
     })
+    // geocoderFrom.on('result', (event) => {
+    //   const list = document.querySelector('.list__ul')
+    //   const inputName = document.querySelector('.inputs__name')
+    //   const li = document.createElement('li')
+    //   li.dataset.address = event.result.place_name
+    //   li.innerHTML = inputName.value
+    //   li.classList.add('list__li')
+    //   list.append(li)
 
-    geocoderFrom.on('result', (event) => {
-      const list = document.querySelector('.list__ul')
-      const inputName = document.querySelector('.inputs__name')
-      const li = document.createElement('li')
-      li.dataset.address = event.result.place_name
-      li.innerHTML = inputName.value
-      li.classList.add('list__li')
-      list.append(li)
-
-      coordinates = event.result.geometry.coordinates
-      getIso(coordinates[1], coordinates[0]);
-    });
-
+    //   coordinates = event.result.geometry.coordinates
+    //   getIso(coordinates[1], coordinates[0]);
+    // });
     getIso(lat, lon);
 
     //_______________________
@@ -174,8 +176,10 @@ export default function renderMap() {
     flyTo: false
   });
 
-  map.addControl(directions, 'top-right');
+
+  map.addControl(directions, 'top-left');
   map.scrollZoom.enable();
+  console.log(directions);
 
   const clearances = {
     type: 'FeatureCollection',
@@ -264,29 +268,29 @@ export default function renderMap() {
   let detail = '';
   const reports = document.getElementById('reports');
 
-  function addCard(id, element, clear, detail) {
-    const card = document.createElement('div');
-    card.className = 'card';
-    // Add the response to the individual report created above
-    const heading = document.createElement('div');
-    // Set the class type based on clear value
-    heading.className =
-      clear === true
-        ? 'card-header route-found'
-        : 'card-header obstacle-found';
-    heading.innerHTML =
-      id === 0
-        ? `${emoji} The route ${collision}`
-        : `${emoji} Route ${id} ${collision}`;
+  // function addCard(id, element, clear, detail) {
+  //   const card = document.createElement('div');
+  //   card.className = 'card';
+  //   // Add the response to the individual report created above
+  //   const heading = document.createElement('div');
+  //   // Set the class type based on clear value
+  //   heading.className =
+  //     clear === true
+  //       ? 'card-header route-found'
+  //       : 'card-header obstacle-found';
+  //   heading.innerHTML =
+  //     id === 0
+  //       ? `${emoji} The route ${collision}`
+  //       : `${emoji} Route ${id} ${collision}`;
 
-    const details = document.createElement('div');
-    details.className = 'card-details';
-    details.innerHTML = `This ${detail} obstacles.`;
+  //   const details = document.createElement('div');
+  //   details.className = 'card-details';
+  //   details.innerHTML = `This ${detail} obstacles.`;
 
-    card.appendChild(heading);
-    card.appendChild(details);
-    element.insertBefore(card, element.firstChild);
-  }
+  //   card.appendChild(heading);
+  //   card.appendChild(details);
+  // element.insertBefore(card, element.firstChild);
+  // }
 
   function noRoutes(element) {
     const card = document.createElement('div');
@@ -315,33 +319,27 @@ export default function renderMap() {
     reports.innerHTML = '';
   });
 
+  document.querySelector('.modal__button').addEventListener('click', () => {
+    directions.onClick()
+  })
   directions.on('route', (event) => {
-    // Hide the route and box by setting the opacity to zero
     map.setLayoutProperty('theRoute', 'visibility', 'none');
     map.setLayoutProperty('theBox', 'visibility', 'none');
 
     if (counter >= maxAttempts) {
       noRoutes(reports);
     } else {
-      // Make each route visible
       for (const route of event.route) {
-        // Make each route visible
         map.setLayoutProperty('theRoute', 'visibility', 'visible');
         map.setLayoutProperty('theBox', 'visibility', 'visible');
 
-        // Get GeoJSON LineString feature of route
         const routeLine = polyline.toGeoJSON(route.geometry);
 
-        // Create a bounding box around this route
-        // The app will find a random point in the new bbox
         bbox = turf.bbox(routeLine);
         polygon = turf.bboxPolygon(bbox);
 
-        // Update the data for the route
-        // This will update the route line on the map
         map.getSource('theRoute').setData(routeLine);
 
-        // Update the box
         map.getSource('theBox').setData(polygon);
 
         const clear = turf.booleanDisjoint(obstacle, routeLine);
@@ -353,15 +351,10 @@ export default function renderMap() {
           )} minutes and avoids`;
           emoji = '✔️';
           map.setPaintProperty('theRoute', 'line-color', '#74c476');
-          // Hide the box
           map.setLayoutProperty('theBox', 'visibility', 'none');
-          // Reset the counter
           counter = 0;
         } else {
-          // Collision occurred, so increment the counter
           counter = counter + 1;
-          // As the attempts increase, expand the search area
-          // by a factor of the attempt count
           polygon = turf.transformScale(polygon, counter * 0.01);
           bbox = turf.bbox(polygon);
           collision = 'is bad.';
@@ -371,17 +364,19 @@ export default function renderMap() {
           emoji = '⚠️';
           map.setPaintProperty('theRoute', 'line-color', '#de2d26');
 
-          // Add a randomly selected waypoint to get a new route from the Directions API
           const randomWaypoint = turf.randomPoint(1, { bbox: bbox });
           directions.setWaypoint(
             0,
             randomWaypoint['features'][0].geometry.coordinates
           );
         }
-        // Add a new report section to the sidebar
-        addCard(counter, reports, clear, detail);
+        // addCard(counter, reports, clear, detail);
       }
     }
+    console.log(directions);
+
   });
+
+
 
 }

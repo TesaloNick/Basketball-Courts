@@ -25,9 +25,7 @@
 
   <!-- Import Mapbox GL Directions -->
   <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
-  <!-- <link rel="stylesheet"
-    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
-    type="text/css" /> -->
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css" type="text/css">
 
   <!-- Import Turf & Polyline -->
   <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
@@ -41,43 +39,42 @@
     <header class="header">
       <h1>BASKETBALL</h1>
       <div class="header__logo">
-        <img class="logo" src="/pngwing.com.b6abb140.png" alt="logo">
+        <img class="logo" src="/logo.d4f8fe33.png" alt="logo">
       </div>
       <h1>COURTS</h1>
     </header>
     <div class="courts"></div>
 
-    <main class="main">
+    <!-- <main class="main">
       <div class="main__left">
         <div class="inputs">
           <h3 class="inputs__header">Save place</h3>
           <input type="text" class="inputs__name" placeholder="place name">
           <div class="from"></div>
-          <!-- <div class="where"></div> -->
         </div>
         <form id="params">
           <h4 class="txt-m txt-bold mb6">Choose a travel mode:</h4>
           <div class="mb12 mr12 toggle-group align-center">
             <label class="toggle-container">
-              <input name="profile" type="radio" value="walking">
+              <input name="profile" type="radio" value="walking" />
               <div class="toggle toggle--active-null toggle--null">Walking</div>
             </label>
             <label class="toggle-container">
-              <input name="profile" type="radio" value="cycling" checked="">
+              <input name="profile" type="radio" value="cycling" checked />
               <div class="toggle toggle--active-null toggle--null">Cycling</div>
             </label>
             <label class="toggle-container">
-              <input name="profile" type="radio" value="driving">
+              <input name="profile" type="radio" value="driving" />
               <div class="toggle toggle--active-null toggle--null">Driving</div>
             </label>
           </div>
           <div class="mb12 mr12 toggle-group align-center">
             <label class="toggle-container">
-              <input name="" type="radio" value="minutes" checked="">
+              <input name="" type="radio" value="minutes" checked />
               <div class="toggle toggle--active-null toggle--null">minutes</div>
             </label>
             <label class="toggle-container">
-              <input name="" type="radio" value="meters">
+              <input name="" type="radio" value="meters" />
               <div class="toggle toggle--active-null toggle--null">meters</div>
             </label>
           </div>
@@ -101,7 +98,7 @@
       <div class="main__right">
         <div id="map"></div>
       </div>
-    </main>
+    </main> -->
     <!-- <div class="list">
       <h3>Favourites addresses</h3>
       <ul class="list__ul">
@@ -112,14 +109,17 @@
 
   <div class="modal">
     <div class="modal__wrapper-close"></div>
-    <div class="modal__wrapper">
-      <!-- <div class="modal__close"><img src="./images/close.svg" alt=""></div>
+    <div class="modal__close"><img src="/close.6ee707d1.svg" alt=""></div>
+    <div class="modal__container">
+      <div class="modal__wrapper">
+        <!-- <div class="modal__close"><img src="./images/close.svg" alt=""></div>
       <div class="modal__img"><img src="" alt=""></div>
       <h2 class="modal__name"></h2>
       <p class="modal__address"></p>
       <ul class="modal__schedule">
         <li></li>
       </ul> -->
+      </div>
     </div>
   </div>
 </body>

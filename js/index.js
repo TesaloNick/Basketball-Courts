@@ -1,6 +1,6 @@
 import Courts from './courts'
 import renderMap from './map'
 
-renderMap()
+// renderMap()
 
 const courts = new Courts

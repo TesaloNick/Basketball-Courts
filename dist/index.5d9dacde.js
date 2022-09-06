@@ -537,16 +537,18 @@ var _courts = require("./courts");
 var _courtsDefault = parcelHelpers.interopDefault(_courts);
 var _map = require("./map");
 var _mapDefault = parcelHelpers.interopDefault(_map);
-(0, _mapDefault.default)();
+// renderMap()
 const courts = new (0, _courtsDefault.default);
 
 },{"./courts":"cZ5GQ","./map":"5VGc0","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}],"cZ5GQ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+var _map = require("./map");
+var _mapDefault = parcelHelpers.interopDefault(_map);
 class Court {
     constructor(){
         this.courts = document.querySelector(".courts");
-        this.modal = document.querySelector(".modal");
+        this.modal = null;
         this.modalWrapper = document.querySelector(".modal__wrapper");
         this.BASE_URL = "http://localhost:3001";
         this.renderAll();
@@ -556,33 +558,60 @@ class Court {
         const data = await response.json();
         return data;
     }
+    toggleModal() {
+        if (this.modal) this.modal.classList.toggle("open");
+        else {
+            this.modal = document.querySelector(".modal");
+            this.modal.classList.toggle("open");
+        }
+    }
     async renderCourt(item) {
         const court = document.createElement("div");
         court.classList.add("courts__item");
         court.innerHTML = `<img id='court-${item.id}' src=${item.photos[0]} />`;
         this.courts.append(court);
+        const myCurrentPosition = await this.findCurrentCoordinates();
         const courtsAPI = await this.getCourts();
         court.addEventListener("click", (e)=>{
             courtsAPI.map((item)=>{
-                if (`court-${item.id}` === e.target.id) this.modalWrapper.innerHTML = `
-            <div class="modal__close"><img src="images/close.svg" alt=""></div>
+                if (`court-${item.id}` === e.target.id) {
+                    this.modalWrapper.innerHTML = `
             <div class="modal__img"><img src="${item.photos[0]}" alt=""></div>
             <div class='modal__content'>
               <h2 class="modal__name">${item.name}</h2>
               <p class="modal__address">${item.address}</p>
               <ul class="modal__schedule">
-                <p>SCHEDULE:</p>
+                <p>РАСПИСАНИЕ:</p>
                 ${item.schedule.map((li)=>`
                   <li>${li.day}: ${li.time}</li>
                 `).join("")}
               </ul>
+              <button class="modal__button">Проложить маршрут</button>
             </div>
-          `;
+            <div id="map"></div>
+            `;
+                    const lon = item.coordinates.lon;
+                    const lat = item.coordinates.lat;
+                    console.log(lon);
+                    (0, _mapDefault.default)(lat, lon);
+                    document.querySelector(".mapbox-directions-origin .mapboxgl-ctrl-geocoder > input").value = `${myCurrentPosition.lon.toFixed(5)},${myCurrentPosition.lat.toFixed(5)}`;
+                    document.querySelector(".mapbox-directions-destination .mapboxgl-ctrl-geocoder > input").value = `${lon.toFixed(5)},${lat.toFixed(5)}`;
+                }
             });
-            this.modal.classList.toggle("open");
-            document.querySelector(".modal__close").addEventListener("click", ()=>this.modal.classList.toggle("open"));
+            this.toggleModal();
+            document.querySelector(".modal__close").addEventListener("click", this.toggleModal);
         });
-        document.querySelector(".modal__wrapper-close").addEventListener("click", ()=>this.modal.classList.toggle("open"));
+        document.querySelector(".modal__wrapper-close").addEventListener("click", this.toggleModal);
+    }
+    findCurrentCoordinates() {
+        return new Promise(function(resolve, reject) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                resolve({
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude
+                });
+            });
+        });
     }
     async renderAll() {
         const courtsAPI = await this.getCourts();
@@ -591,7 +620,7 @@ class Court {
 }
 exports.default = Court;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}],"az0mL":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"az0mL","./map":"5VGc0"}],"az0mL":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -624,14 +653,11 @@ exports.export = function(dest, destName, get) {
 },{}],"5VGc0":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-function renderMap() {
+function renderMap(lat, lon) {
     mapboxgl.accessToken = "pk.eyJ1IjoidGVzYWxvbmljayIsImEiOiJjbDdodmdheHIwaWIyM3VtbTJjaXNreGt2In0.Er4yPKDyLrAYKJn5rRpXoQ";
     const urlBase = "https://api.mapbox.com/isochrone/v1/mapbox/";
-    const lon = 27.55689040736249;
-    const lat = 53.89733609094718;
-    let profile = "cycling";
-    let minutes = 5;
-    let coordinates = "";
+    let profile = "walking";
+    let minutes = 1;
     const map = new mapboxgl.Map({
         container: "map",
         style: "mapbox://styles/mapbox/streets-v11",
@@ -639,24 +665,30 @@ function renderMap() {
             lon,
             lat
         ],
-        zoom: 10
+        zoom: 13
     });
     async function getIso(lat, lon) {
         const query = await fetch(`${urlBase}${profile}/${lon},${lat}?contours_minutes=${minutes}&polygons=true&access_token=${mapboxgl.accessToken}`, {
             method: "GET"
         });
         const data = await query.json();
-        console.log(data);
+        // console.log(data);
         await map.getSource("iso").setData(data);
     }
-    let from = document.querySelector(".from");
-    let inputs = document.querySelector(".inputs");
-    const geocoderFrom = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-        marker: true,
-        placeholder: "address"
+    const marker = new mapboxgl.Marker({
+        color: "#314ccd"
     });
+    const lngLat = {
+        lon: lon,
+        lat: lat
+    };
+    marker.setLngLat(lngLat).addTo(map);
+    // const geocoderFrom = new MapboxGeocoder({
+    //   accessToken: mapboxgl.accessToken,
+    //   mapboxgl: mapboxgl,
+    //   marker: true,
+    //   placeholder: 'address',
+    // });
     // const geocoderWhere = new MapboxGeocoder({
     //   accessToken: mapboxgl.accessToken,
     //   mapboxgl: mapboxgl,
@@ -664,7 +696,7 @@ function renderMap() {
     //   placeholder: 'Where',
     // });
     // console.log(geocoderWhere, from);
-    map.addControl(geocoderFrom);
+    // map.addControl(geocoderFrom);
     // map.addControl(geocoderWhere);
     map.on("load", ()=>{
         map.addSource("iso", {
@@ -700,17 +732,17 @@ function renderMap() {
                 "circle-color": "#448ee4"
             }
         });
-        geocoderFrom.on("result", (event)=>{
-            const list = document.querySelector(".list__ul");
-            const inputName = document.querySelector(".inputs__name");
-            const li = document.createElement("li");
-            li.dataset.address = event.result.place_name;
-            li.innerHTML = inputName.value;
-            li.classList.add("list__li");
-            list.append(li);
-            coordinates = event.result.geometry.coordinates;
-            getIso(coordinates[1], coordinates[0]);
-        });
+        // geocoderFrom.on('result', (event) => {
+        //   const list = document.querySelector('.list__ul')
+        //   const inputName = document.querySelector('.inputs__name')
+        //   const li = document.createElement('li')
+        //   li.dataset.address = event.result.place_name
+        //   li.innerHTML = inputName.value
+        //   li.classList.add('list__li')
+        //   list.append(li)
+        //   coordinates = event.result.geometry.coordinates
+        //   getIso(coordinates[1], coordinates[0]);
+        // });
         getIso(lat, lon);
         //_______________________
         map.addLayer({
@@ -779,8 +811,9 @@ function renderMap() {
         },
         flyTo: false
     });
-    map.addControl(directions, "top-right");
+    map.addControl(directions, "top-left");
     map.scrollZoom.enable();
+    console.log(directions);
     const clearances = {
         type: "FeatureCollection",
         features: [
@@ -893,21 +926,27 @@ function renderMap() {
     let collision = "";
     let detail = "";
     const reports = document.getElementById("reports");
-    function addCard(id, element, clear, detail) {
-        const card = document.createElement("div");
-        card.className = "card";
-        // Add the response to the individual report created above
-        const heading = document.createElement("div");
-        // Set the class type based on clear value
-        heading.className = clear === true ? "card-header route-found" : "card-header obstacle-found";
-        heading.innerHTML = id === 0 ? `${emoji} The route ${collision}` : `${emoji} Route ${id} ${collision}`;
-        const details = document.createElement("div");
-        details.className = "card-details";
-        details.innerHTML = `This ${detail} obstacles.`;
-        card.appendChild(heading);
-        card.appendChild(details);
-        element.insertBefore(card, element.firstChild);
-    }
+    // function addCard(id, element, clear, detail) {
+    //   const card = document.createElement('div');
+    //   card.className = 'card';
+    //   // Add the response to the individual report created above
+    //   const heading = document.createElement('div');
+    //   // Set the class type based on clear value
+    //   heading.className =
+    //     clear === true
+    //       ? 'card-header route-found'
+    //       : 'card-header obstacle-found';
+    //   heading.innerHTML =
+    //     id === 0
+    //       ? `${emoji} The route ${collision}`
+    //       : `${emoji} Route ${id} ${collision}`;
+    //   const details = document.createElement('div');
+    //   details.className = 'card-details';
+    //   details.innerHTML = `This ${detail} obstacles.`;
+    //   card.appendChild(heading);
+    //   card.appendChild(details);
+    // element.insertBefore(card, element.firstChild);
+    // }
     function noRoutes(element) {
         const card = document.createElement("div");
         card.className = "card";
@@ -930,26 +969,20 @@ function renderMap() {
         counter = 0;
         reports.innerHTML = "";
     });
+    document.querySelector(".modal__button").addEventListener("click", ()=>{
+        directions.onClick();
+    });
     directions.on("route", (event)=>{
-        // Hide the route and box by setting the opacity to zero
         map.setLayoutProperty("theRoute", "visibility", "none");
         map.setLayoutProperty("theBox", "visibility", "none");
         if (counter >= maxAttempts) noRoutes(reports);
-        else // Make each route visible
-        for (const route of event.route){
-            // Make each route visible
+        else for (const route of event.route){
             map.setLayoutProperty("theRoute", "visibility", "visible");
             map.setLayoutProperty("theBox", "visibility", "visible");
-            // Get GeoJSON LineString feature of route
             const routeLine = polyline.toGeoJSON(route.geometry);
-            // Create a bounding box around this route
-            // The app will find a random point in the new bbox
             bbox = turf.bbox(routeLine);
             polygon = turf.bboxPolygon(bbox);
-            // Update the data for the route
-            // This will update the route line on the map
             map.getSource("theRoute").setData(routeLine);
-            // Update the box
             map.getSource("theBox").setData(polygon);
             const clear = turf.booleanDisjoint(obstacle, routeLine);
             if (clear === true) {
@@ -957,30 +990,24 @@ function renderMap() {
                 detail = `takes ${(route.duration / 60).toFixed(0)} minutes and avoids`;
                 emoji = "✔️";
                 map.setPaintProperty("theRoute", "line-color", "#74c476");
-                // Hide the box
                 map.setLayoutProperty("theBox", "visibility", "none");
-                // Reset the counter
                 counter = 0;
             } else {
-                // Collision occurred, so increment the counter
                 counter = counter + 1;
-                // As the attempts increase, expand the search area
-                // by a factor of the attempt count
                 polygon = turf.transformScale(polygon, counter * 0.01);
                 bbox = turf.bbox(polygon);
                 collision = "is bad.";
                 detail = `takes ${(route.duration / 60).toFixed(0)} minutes and hits`;
                 emoji = "⚠️";
                 map.setPaintProperty("theRoute", "line-color", "#de2d26");
-                // Add a randomly selected waypoint to get a new route from the Directions API
                 const randomWaypoint = turf.randomPoint(1, {
                     bbox: bbox
                 });
                 directions.setWaypoint(0, randomWaypoint["features"][0].geometry.coordinates);
             }
-            // Add a new report section to the sidebar
-            addCard(counter, reports, clear, detail);
+        // addCard(counter, reports, clear, detail);
         }
+        console.log(directions);
     });
 }
 exports.default = renderMap;

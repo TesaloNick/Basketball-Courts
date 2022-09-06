@@ -10,32 +10,32 @@
       },
       "schedule": [
         {
-          "day": "Monday",
-          "time": "24 hours per day"
+          "day": "Понедельник",
+          "time": "24 часа в день"
         },
         {
-          "day": "Tuesday",
-          "time": "24 hours per day"
+          "day": "Вторник",
+          "time": "24 часа в день"
         },
         {
-          "day": "Wednesday",
-          "time": "24 hours per day"
+          "day": "Среда",
+          "time": "24 часа в день"
         },
         {
-          "day": "Thursday",
-          "time": "24 hours per day"
+          "day": "Четверг",
+          "time": "24 часа в день"
         },
         {
-          "day": "Friday",
-          "time": "24 hours per day"
+          "day": "Пятница",
+          "time": "24 часа в день"
         },
         {
-          "day": "Saturday",
-          "time": "24 hours per day"
+          "day": "Суббота",
+          "time": "24 часа в день"
         },
         {
-          "day": "Sunday",
-          "time": "24 hours per day"
+          "day": "Воскресенье",
+          "time": "24 часа в день"
         }
       ],
       "photos": [
@@ -52,32 +52,32 @@
       },
       "schedule": [
         {
-          "day": "Monday",
-          "time": "24 hours per day"
+          "day": "Понедельник",
+          "time": "24 часа в день"
         },
         {
-          "day": "Tuesday",
-          "time": "24 hours per day"
+          "day": "Вторник",
+          "time": "24 часа в день"
         },
         {
-          "day": "Wednesday",
-          "time": "24 hours per day"
+          "day": "Среда",
+          "time": "24 часа в день"
         },
         {
-          "day": "Thursday",
-          "time": "24 hours per day"
+          "day": "Четверг",
+          "time": "24 часа в день"
         },
         {
-          "day": "Friday",
-          "time": "24 hours per day"
+          "day": "Пятница",
+          "time": "24 часа в день"
         },
         {
-          "day": "Saturday",
-          "time": "24 hours per day"
+          "day": "Суббота",
+          "time": "24 часа в день"
         },
         {
-          "day": "Sunday",
-          "time": "24 hours per day"
+          "day": "Воскресенье",
+          "time": "24 часа в день"
         }
       ],
       "photos": [
@@ -94,32 +94,32 @@
       },
       "schedule": [
         {
-          "day": "Monday",
-          "time": "since 8am to 10p"
+          "day": "Понедельник",
+          "time": "24 часа в день"
         },
         {
-          "day": "Tuesday",
-          "time": "since 8am to 10pm"
+          "day": "Вторник",
+          "time": "24 часа в день"
         },
         {
-          "day": "Wednesday",
-          "time": "since 8am to 10pm"
+          "day": "Среда",
+          "time": "24 часа в день"
         },
         {
-          "day": "Thursday",
-          "time": "since 8am to 10pm"
+          "day": "Четверг",
+          "time": "24 часа в день"
         },
         {
-          "day": "Friday",
-          "time": "since 8am to 10pm"
+          "day": "Пятница",
+          "time": "24 часа в день"
         },
         {
-          "day": "Saturday",
-          "time": "since 8am to 10pm"
+          "day": "Суббота",
+          "time": "24 часа в день"
         },
         {
-          "day": "Sunday",
-          "time": "since 8am to 10pm"
+          "day": "Воскресенье",
+          "time": "24 часа в день"
         }
       ],
       "photos": [

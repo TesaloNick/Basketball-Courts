@@ -44,6 +44,7 @@ body {
 
 .header__logo {
   text-align: center;
+  cursor: pointer;
 }
 
 .header img {
@@ -136,10 +137,6 @@ body {
   padding: 10px;
 }
 
-#map .mapboxgl-control-container .mapboxgl-ctrl-top-right .mapboxgl-ctrl-geocoder .mapbox-directions-profile, #map .mapboxgl-control-container .mapboxgl-ctrl-top-right .mapboxgl-ctrl-directions .mapbox-directions-profile {
-  display: none;
-}
-
 #map .mapboxgl-control-container .mapboxgl-ctrl-top-right .mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder, #map .mapboxgl-control-container .mapboxgl-ctrl-top-right .mapboxgl-ctrl-directions .mapboxgl-ctrl-geocoder {
   height: 36px;
   border-radius: 3px;
@@ -150,10 +147,6 @@ body {
   height: 100%;
   border: 0;
   border-radius: 4px;
-}
-
-#map .mapboxgl-control-container .mapboxgl-ctrl-top-right .mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder--icon, #map .mapboxgl-control-container .mapboxgl-ctrl-top-right .mapboxgl-ctrl-directions .mapboxgl-ctrl-geocoder--icon {
-  display: none;
 }
 
 @media (max-width: 640px) {
@@ -253,9 +246,10 @@ body {
 .modal {
   width: 100%;
   height: 100%;
+  z-index: 10;
   background-color: #0003;
   padding: 5vh 10vw;
-  transition: all .7s;
+  transition: all 1s;
   position: fixed;
   top: 0;
   left: 100%;
@@ -274,26 +268,15 @@ body {
   left: 0;
 }
 
-.modal__wrapper {
-  height: 100%;
-  background-color: #fff;
-  border-radius: 5px;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  padding: 10px;
-  display: grid;
-  position: relative;
-  overflow: auto;
-}
-
 .modal__close {
   width: 30px;
   height: 30px;
   cursor: pointer;
+  z-index: 11;
   transition: all .5s;
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: calc(5vh + 10px);
+  right: calc(10vw + 40px);
 }
 
 .modal__close:hover {
@@ -306,14 +289,46 @@ body {
   height: 100%;
 }
 
+.modal__container {
+  width: 80vw;
+  height: 90vh;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  position: fixed;
+}
+
+.modal__wrapper {
+  height: 100%;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  display: grid;
+  position: relative;
+  overflow: auto;
+}
+
 .modal__content {
   flex-direction: column;
+  align-items: start;
   gap: 10px;
   display: flex;
 }
 
 .modal__img img {
   width: 100%;
+}
+
+.modal__button {
+  background-color: #223c504d;
+  border-radius: 5px;
+  padding: 5px 10px;
+  box-shadow: 0 4px 8px #223c5033;
+}
+
+.modal #map {
+  height: 50vh;
+  width: 100%;
+  grid-column: 1 / 3;
 }
 
 /*# sourceMappingURL=index.f9a52ea2.css.map */
