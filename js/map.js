@@ -176,10 +176,8 @@ export default function renderMap(lat, lon) {
     flyTo: false
   });
 
-
   map.addControl(directions, 'top-left');
   map.scrollZoom.enable();
-  console.log(directions);
 
   const clearances = {
     type: 'FeatureCollection',
@@ -319,10 +317,28 @@ export default function renderMap(lat, lon) {
     reports.innerHTML = '';
   });
 
-  document.querySelector('.modal__button').addEventListener('click', () => {
-    directions.onClick()
+  function findCurrentCoordinates() {
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          resolve({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude
+          })
+        }
+      );
+    })
+  }
+
+
+  document.querySelector('.modal__button').addEventListener('click', async () => {
+    // directions.onClick()
+    const myCurrentPosition = await findCurrentCoordinates()
+    document.querySelector('.mapbox-directions-origin .mapboxgl-ctrl-geocoder > input').value = `${myCurrentPosition.lon.toFixed(5)},${myCurrentPosition.lat.toFixed(5)}`
+    document.querySelector('.mapbox-directions-destination .mapboxgl-ctrl-geocoder > input').value = `${lon.toFixed(5)},${lat.toFixed(5)}`
   })
-  directions.on('route', (event) => {
+
+  directions.on('route', async (event) => {
     map.setLayoutProperty('theRoute', 'visibility', 'none');
     map.setLayoutProperty('theBox', 'visibility', 'none');
 
@@ -344,11 +360,17 @@ export default function renderMap(lat, lon) {
 
         const clear = turf.booleanDisjoint(obstacle, routeLine);
 
+
+
+
+        // Определение расстояния и времени на дорогу
+        document.querySelector('.modal__duration').innerHTML = `Расстояние: ${(route.distance / 1000).toFixed(1)} км`
+        document.querySelector('.modal__distance').innerHTML = `Время в пути: ${(route.duration / 60).toFixed(0)} минут`
+
+
         if (clear === true) {
           collision = 'does not intersect any obstacles!';
-          detail = `takes ${(route.duration / 60).toFixed(
-            0
-          )} minutes and avoids`;
+          detail = `takes ${(route.duration / 60).toFixed(0)} minutes and avoids`;
           emoji = '✔️';
           map.setPaintProperty('theRoute', 'line-color', '#74c476');
           map.setLayoutProperty('theBox', 'visibility', 'none');
@@ -358,9 +380,7 @@ export default function renderMap(lat, lon) {
           polygon = turf.transformScale(polygon, counter * 0.01);
           bbox = turf.bbox(polygon);
           collision = 'is bad.';
-          detail = `takes ${(route.duration / 60).toFixed(
-            0
-          )} minutes and hits`;
+          detail = `takes ${(route.duration / 60).toFixed(0)} minutes and hits`;
           emoji = '⚠️';
           map.setPaintProperty('theRoute', 'line-color', '#de2d26');
 
@@ -373,10 +393,7 @@ export default function renderMap(lat, lon) {
         // addCard(counter, reports, clear, detail);
       }
     }
-    console.log(directions);
 
+    // console.log(directions.onClick);
   });
-
-
-
 }
