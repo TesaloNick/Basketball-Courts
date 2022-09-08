@@ -1,6 +1,5 @@
 import Courts from './courts'
-import renderMap from './map'
+import SignUp from './sign-up'
 
-// renderMap()
-
-const courts = new Courts
+const courts = new Courts()
+const signUp = new SignUp()

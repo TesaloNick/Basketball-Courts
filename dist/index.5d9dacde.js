@@ -535,12 +535,12 @@ function hmrAcceptRun(bundle, id) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _courts = require("./courts");
 var _courtsDefault = parcelHelpers.interopDefault(_courts);
-var _map = require("./map");
-var _mapDefault = parcelHelpers.interopDefault(_map);
-// renderMap()
-const courts = new (0, _courtsDefault.default);
+var _signUp = require("./sign-up");
+var _signUpDefault = parcelHelpers.interopDefault(_signUp);
+const courts = new (0, _courtsDefault.default)();
+const signUp = new (0, _signUpDefault.default)();
 
-},{"./courts":"cZ5GQ","./map":"5VGc0","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}],"cZ5GQ":[function(require,module,exports) {
+},{"./courts":"cZ5GQ","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL","./sign-up":"55nlW"}],"cZ5GQ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _map = require("./map");
@@ -549,7 +549,7 @@ class Court {
     constructor(){
         this.courts = document.querySelector(".courts");
         this.modal = null;
-        this.modalWrapper = document.querySelector(".modal__wrapper");
+        this.modalContainer = document.querySelector(".modal__container");
         this.BASE_URL = "http://localhost:3001";
         this.renderAll();
     }
@@ -570,48 +570,37 @@ class Court {
         court.classList.add("courts__item");
         court.innerHTML = `<img id='court-${item.id}' src=${item.photos[0]} />`;
         this.courts.append(court);
-        const myCurrentPosition = await this.findCurrentCoordinates();
         const courtsAPI = await this.getCourts();
         court.addEventListener("click", (e)=>{
             courtsAPI.map((item)=>{
                 if (`court-${item.id}` === e.target.id) {
-                    this.modalWrapper.innerHTML = `
-            <div class="modal__img"><img src="${item.photos[0]}" alt=""></div>
-            <div class='modal__content'>
-              <h2 class="modal__name">${item.name}</h2>
-              <p class="modal__address">${item.address}</p>
-              <ul class="modal__schedule">
-                <p>РАСПИСАНИЕ:</p>
-                ${item.schedule.map((li)=>`
-                  <li>${li.day}: ${li.time}</li>
-                `).join("")}
-              </ul>
-              <button class="modal__button">Проложить маршрут</button>
+                    this.modalContainer.innerHTML = `
+            <div class="modal__wrapper-courts">
+              <div class="modal__img"><img src="${item.photos[0]}" alt=""></div>
+              <div class='modal__content'>
+                <h2 class="modal__name">${item.name}</h2>
+                <p class="modal__address">Адресс: ${item.address}</p>
+                <ul class="modal__schedule">
+                  <p>РАСПИСАНИЕ:</p>
+                  ${item.schedule.map((li)=>`
+                    <li>${li.day}: ${li.time}</li>
+                  `).join("")}
+                </ul>
+              </div>
+              <div id="map"></div>
             </div>
-            <div id="map"></div>
             `;
                     const lon = item.coordinates.lon;
                     const lat = item.coordinates.lat;
-                    console.log(lon);
                     (0, _mapDefault.default)(lat, lon);
-                    document.querySelector(".mapbox-directions-origin .mapboxgl-ctrl-geocoder > input").value = `${myCurrentPosition.lon.toFixed(5)},${myCurrentPosition.lat.toFixed(5)}`;
-                    document.querySelector(".mapbox-directions-destination .mapboxgl-ctrl-geocoder > input").value = `${lon.toFixed(5)},${lat.toFixed(5)}`;
+                // document.querySelector('.mapbox-directions-origin .mapboxgl-ctrl-geocoder > input').value = `${myCurrentPosition.lon.toFixed(5)},${myCurrentPosition.lat.toFixed(5)}`
+                // document.querySelector('.mapbox-directions-destination .mapboxgl-ctrl-geocoder > input').value = `${lon.toFixed(5)},${lat.toFixed(5)}`
                 }
             });
             this.toggleModal();
             document.querySelector(".modal__close").addEventListener("click", this.toggleModal);
         });
         document.querySelector(".modal__wrapper-close").addEventListener("click", this.toggleModal);
-    }
-    findCurrentCoordinates() {
-        return new Promise(function(resolve, reject) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                resolve({
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude
-                });
-            });
-        });
     }
     async renderAll() {
         const courtsAPI = await this.getCourts();
@@ -620,37 +609,7 @@ class Court {
 }
 exports.default = Court;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"az0mL","./map":"5VGc0"}],"az0mL":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"5VGc0":[function(require,module,exports) {
+},{"./map":"5VGc0","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}],"5VGc0":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 function renderMap(lat, lon) {
@@ -813,7 +772,6 @@ function renderMap(lat, lon) {
     });
     map.addControl(directions, "top-left");
     map.scrollZoom.enable();
-    console.log(directions);
     const clearances = {
         type: "FeatureCollection",
         features: [
@@ -969,12 +927,26 @@ function renderMap(lat, lon) {
         counter = 0;
         reports.innerHTML = "";
     });
-    document.querySelector(".modal__button").addEventListener("click", ()=>{
-        directions.onClick();
-    });
-    directions.on("route", (event)=>{
+    function findCurrentCoordinates() {
+        return new Promise(function(resolve, reject) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                resolve({
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude
+                });
+            });
+        });
+    }
+    // document.querySelector('.modal__button').addEventListener('click', async () => {
+    //   // directions.onClick()
+    //   const myCurrentPosition = await findCurrentCoordinates()
+    //   document.querySelector('.mapbox-directions-origin .mapboxgl-ctrl-geocoder > input').value = `${myCurrentPosition.lon.toFixed(5)},${myCurrentPosition.lat.toFixed(5)}`
+    //   document.querySelector('.mapbox-directions-destination .mapboxgl-ctrl-geocoder > input').value = `${lon.toFixed(5)},${lat.toFixed(5)}`
+    // })
+    directions.on("route", async (event)=>{
         map.setLayoutProperty("theRoute", "visibility", "none");
         map.setLayoutProperty("theBox", "visibility", "none");
+        console.log(event);
         if (counter >= maxAttempts) noRoutes(reports);
         else for (const route of event.route){
             map.setLayoutProperty("theRoute", "visibility", "visible");
@@ -985,6 +957,9 @@ function renderMap(lat, lon) {
             map.getSource("theRoute").setData(routeLine);
             map.getSource("theBox").setData(polygon);
             const clear = turf.booleanDisjoint(obstacle, routeLine);
+            // Определение расстояния и времени на дорогу
+            document.querySelector(".modal__duration").innerHTML = `Расстояние: ${(route.distance / 1000).toFixed(1)} км`;
+            document.querySelector(".modal__distance").innerHTML = `Время в пути: ${(route.duration / 60).toFixed(0)} минут`;
             if (clear === true) {
                 collision = "does not intersect any obstacles!";
                 detail = `takes ${(route.duration / 60).toFixed(0)} minutes and avoids`;
@@ -1011,6 +986,74 @@ function renderMap(lat, lon) {
     });
 }
 exports.default = renderMap;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}],"az0mL":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"55nlW":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class SignUp {
+    constructor(){
+        this.signInButton = document.querySelector(".header__sign-up");
+        this.modalContainer = document.querySelector(".modal__container");
+        this.modal = null;
+        this.BASE_URL = "http://localhost:3001";
+        this.renderAll();
+    }
+    toggleModal() {
+        if (this.modal) this.modal.classList.toggle("open");
+        else {
+            this.modal = document.querySelector(".modal");
+            this.modal.classList.toggle("open");
+        }
+    }
+    renderForm() {
+        this.signInButton.addEventListener("click", ()=>{
+            this.modalContainer.innerHTML = `
+      <div class="modal__wrapper-sign-in">
+        <form action="" class="form sign-in">
+          <input type="text" placeholder="login" class="sign-in__login">
+          <input type="text" placeholder="password" class="sign-in__password">
+          <button class="sign-in__button">Sign-Up</button>
+        </form>
+      </div>
+      `;
+            this.toggleModal();
+        });
+    }
+    async renderAll() {
+        this.renderForm();
+    }
+}
+exports.default = SignUp;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}]},["9bCTy","1Z4Rq"], "1Z4Rq", "parcelRequire1a32")
 

@@ -4,7 +4,7 @@ export default class Court {
   constructor() {
     this.courts = document.querySelector('.courts')
     this.modal = null
-    this.modalWrapper = document.querySelector('.modal__wrapper')
+    this.modalContainer = document.querySelector('.modal__container')
     this.BASE_URL = 'http://localhost:3001'
     this.renderAll()
   }
@@ -30,28 +30,25 @@ export default class Court {
     court.innerHTML = `<img id='court-${item.id}' src=${item.photos[0]} />`
     this.courts.append(court)
 
-    const myCurrentPosition = await this.findCurrentCoordinates()
-
     const courtsAPI = await this.getCourts()
     court.addEventListener('click', (e) => {
       courtsAPI.map(item => {
         if (`court-${item.id}` === e.target.id) {
-          this.modalWrapper.innerHTML = `
-            <div class="modal__img"><img src="${item.photos[0]}" alt=""></div>
-            <div class='modal__content'>
-              <h2 class="modal__name">${item.name}</h2>
-              <p class="modal__address">${item.address}</p>
-              <ul class="modal__schedule">
-                <p>РАСПИСАНИЕ:</p>
-                ${item.schedule.map(li => `
-                  <li>${li.day}: ${li.time}</li>
-                `).join('')}
-              </ul>
-              <button class="modal__button">Проложить маршрут</button>
-              <p class='modal__duration'></p>
-              <p class='modal__distance'></p>
+          this.modalContainer.innerHTML = `
+            <div class="modal__wrapper-courts">
+              <div class="modal__img"><img src="${item.photos[0]}" alt=""></div>
+              <div class='modal__content'>
+                <h2 class="modal__name">${item.name}</h2>
+                <p class="modal__address">Адресс: ${item.address}</p>
+                <ul class="modal__schedule">
+                  <p>РАСПИСАНИЕ:</p>
+                  ${item.schedule.map(li => `
+                    <li>${li.day}: ${li.time}</li>
+                  `).join('')}
+                </ul>
+              </div>
+              <div id="map"></div>
             </div>
-            <div id="map"></div>
             `
 
           const lon = item.coordinates.lon;
@@ -65,19 +62,6 @@ export default class Court {
       document.querySelector('.modal__close').addEventListener('click', this.toggleModal)
     })
     document.querySelector('.modal__wrapper-close').addEventListener('click', this.toggleModal)
-  }
-
-  findCurrentCoordinates() {
-    return new Promise(function (resolve, reject) {
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          resolve({
-            lat: position.coords.latitude,
-            lon: position.coords.longitude
-          })
-        }
-      );
-    })
   }
 
   async renderAll() {

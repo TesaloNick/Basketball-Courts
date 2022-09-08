@@ -330,18 +330,17 @@ export default function renderMap(lat, lon) {
     })
   }
 
-
-  document.querySelector('.modal__button').addEventListener('click', async () => {
-    // directions.onClick()
-    const myCurrentPosition = await findCurrentCoordinates()
-    document.querySelector('.mapbox-directions-origin .mapboxgl-ctrl-geocoder > input').value = `${myCurrentPosition.lon.toFixed(5)},${myCurrentPosition.lat.toFixed(5)}`
-    document.querySelector('.mapbox-directions-destination .mapboxgl-ctrl-geocoder > input').value = `${lon.toFixed(5)},${lat.toFixed(5)}`
-  })
+  // document.querySelector('.modal__button').addEventListener('click', async () => {
+  //   // directions.onClick()
+  //   const myCurrentPosition = await findCurrentCoordinates()
+  //   document.querySelector('.mapbox-directions-origin .mapboxgl-ctrl-geocoder > input').value = `${myCurrentPosition.lon.toFixed(5)},${myCurrentPosition.lat.toFixed(5)}`
+  //   document.querySelector('.mapbox-directions-destination .mapboxgl-ctrl-geocoder > input').value = `${lon.toFixed(5)},${lat.toFixed(5)}`
+  // })
 
   directions.on('route', async (event) => {
     map.setLayoutProperty('theRoute', 'visibility', 'none');
     map.setLayoutProperty('theBox', 'visibility', 'none');
-
+    console.log(event);
     if (counter >= maxAttempts) {
       noRoutes(reports);
     } else {
@@ -360,13 +359,9 @@ export default function renderMap(lat, lon) {
 
         const clear = turf.booleanDisjoint(obstacle, routeLine);
 
-
-
-
         // Определение расстояния и времени на дорогу
         document.querySelector('.modal__duration').innerHTML = `Расстояние: ${(route.distance / 1000).toFixed(1)} км`
         document.querySelector('.modal__distance').innerHTML = `Время в пути: ${(route.duration / 60).toFixed(0)} минут`
-
 
         if (clear === true) {
           collision = 'does not intersect any obstacles!';
@@ -394,6 +389,6 @@ export default function renderMap(lat, lon) {
       }
     }
 
-    // console.log(directions.onClick);
+    console.log(directions);
   });
 }

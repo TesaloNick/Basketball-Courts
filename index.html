@@ -43,89 +43,33 @@
 
   <div class="container">
     <header class="header">
-      <h1>BASKETBALL</h1>
-      <div class="header__logo">
-        <img class="logo" src="./images/logo.png" alt="logo">
+      <div class="header__left">
+        <h1>BASKETBALL</h1>
+        <div class="header__logo">
+          <img class="logo" src="./images/logo.png" alt="logo">
+        </div>
+        <h1>COURTS</h1>
       </div>
-      <h1>COURTS</h1>
+      <div class="header__right">
+        <a href="#" class="header__sign-in">Sign-In</a>
+        <a href="#" class="header__sign-up">Sign-Up</a>
+      </div>
     </header>
     <div class="courts"></div>
-
-    <!-- <main class="main">
-      <div class="main__left">
-        <div class="inputs">
-          <h3 class="inputs__header">Save place</h3>
-          <input type="text" class="inputs__name" placeholder="place name">
-          <div class="from"></div>
-        </div>
-        <form id="params">
-          <h4 class="txt-m txt-bold mb6">Choose a travel mode:</h4>
-          <div class="mb12 mr12 toggle-group align-center">
-            <label class="toggle-container">
-              <input name="profile" type="radio" value="walking" />
-              <div class="toggle toggle--active-null toggle--null">Walking</div>
-            </label>
-            <label class="toggle-container">
-              <input name="profile" type="radio" value="cycling" checked />
-              <div class="toggle toggle--active-null toggle--null">Cycling</div>
-            </label>
-            <label class="toggle-container">
-              <input name="profile" type="radio" value="driving" />
-              <div class="toggle toggle--active-null toggle--null">Driving</div>
-            </label>
-          </div>
-          <div class="mb12 mr12 toggle-group align-center">
-            <label class="toggle-container">
-              <input name="" type="radio" value="minutes" checked />
-              <div class="toggle toggle--active-null toggle--null">minutes</div>
-            </label>
-            <label class="toggle-container">
-              <input name="" type="radio" value="meters" />
-              <div class="toggle toggle--active-null toggle--null">meters</div>
-            </label>
-          </div>
-        </form>
-        <div class="countour">
-          <label class="input-countour" for="input-countour"> <b>Countour type:</b></label>
-          <select id="choose_id" class="countour__minutes">
-            <option value="10">10 min</option>
-            <option value="20">20 min</option>
-            <option value="30">30 min</option>
-            <option value="15">15 min increments</option>
-          </select>
-          <select id="choose_id" class="countour__meters">
-            <option value="0">1000 meters</option>
-            <option value="0">5000 meters</option>
-            <option value="0">10000 meters</option>
-            <option value="0">10000 meters increments</option>
-          </select>
-        </div>
-      </div>
-      <div class="main__right">
-        <div id="map"></div>
-      </div>
-    </main> -->
-    <!-- <div class="list">
-      <h3>Favourites addresses</h3>
-      <ul class="list__ul">
-        <li class="list__li"></li>
-      </ul>
-    </div> -->
   </div>
 
   <div class="modal">
     <div class="modal__wrapper-close"></div>
     <div class="modal__close"><img src="./images/close.svg" alt=""></div>
     <div class="modal__container">
-      <div class="modal__wrapper">
-        <!-- <div class="modal__close"><img src="./images/close.svg" alt=""></div>
-      <div class="modal__img"><img src="" alt=""></div>
-      <h2 class="modal__name"></h2>
-      <p class="modal__address"></p>
-      <ul class="modal__schedule">
-        <li></li>
-      </ul> -->
+      <div class="modal__wrapper-sign-in">
+        <form action="" class="form sign-in">
+          <input type="text" placeholder="login" class="sign-in__login">
+          <input type="text" placeholder="password" class="sign-in__password">
+          <button class="sign-in__button">Sign-Up</button>
+        </form>
       </div>
+
     </div>
   </div>
 </body>
