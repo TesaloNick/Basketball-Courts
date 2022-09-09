@@ -5,6 +5,7 @@ export default class Court {
     this.courts = document.querySelector('.courts')
     this.modal = null
     this.modalContainer = document.querySelector('.modal__container')
+    this.closeButton = document.querySelector('.modal__close-button')
     this.BASE_URL = 'http://localhost:3001'
     this.renderAll()
   }
@@ -50,6 +51,8 @@ export default class Court {
               <div id="map"></div>
             </div>
             `
+          this.closeButton.style.top = 'calc(10vh - 45px)'
+          this.closeButton.style.right = 'calc(10vw - 45px)'
 
           const lon = item.coordinates.lon;
           const lat = item.coordinates.lat;
@@ -59,9 +62,9 @@ export default class Court {
         }
       })
       this.toggleModal()
-      document.querySelector('.modal__close').addEventListener('click', this.toggleModal)
+      this.closeButton.addEventListener('click', this.toggleModal)
     })
-    document.querySelector('.modal__wrapper-close').addEventListener('click', this.toggleModal)
+    document.querySelector('.modal__container-close').addEventListener('click', this.toggleModal)
   }
 
   async renderAll() {
