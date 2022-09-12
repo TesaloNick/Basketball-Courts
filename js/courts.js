@@ -8,6 +8,7 @@ export default class Court {
     this.closeButton = document.querySelector('.modal__close-button')
     this.BASE_URL = 'http://localhost:3001'
     this.renderAll()
+
   }
 
   async getCourts() {
