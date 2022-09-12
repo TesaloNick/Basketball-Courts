@@ -17,6 +17,10 @@ body {
     max-width: 100%;
     padding: 0 15px;
   }
+
+  @media (max-width: 700px) {
+    gap: 10px;
+  }
 }
 
 .active {
@@ -29,30 +33,50 @@ body {
   align-items: center;
   gap: 10px;
 
+  @media (max-width: 800px) {
+    padding: 10px 0;
+  }
+
   &__left {
     display: grid;
     grid-template-columns: auto minmax(100px, 150px) auto;
-    // justify-content: space-between;
     align-items: center;
     gap: 20px;
+
+    @media (max-width: 1060px) {
+      grid-template-columns: auto 70px auto;
+    }
+
+    @media (max-width: 800px) {
+      grid-template-columns: auto auto;
+      gap: 10px;
+    }
+
+    @media (max-width: 700px) {
+      grid-template-columns: auto;
+    }
   }
 
   h1 {
     font-weight: bold;
     font-size: 50px;
 
-    // &:first-child {
-    //   justify-self: right;
-    // }
+    @media (max-width: 1060px) {
+      font-size: 40px;
+    }
 
-    // &:last-child {
-    //   justify-self: left;
-    // }
+    @media (max-width: 700px) {
+      font-size: 30px;
+    }
   }
 
   &__logo {
     text-align: center;
     cursor: pointer;
+
+    @media (max-width: 800px) {
+      display: none;
+    }
 
     img {
       width: 152px;
@@ -66,6 +90,15 @@ body {
     display: none;
     gap: 20px;
 
+    @media (max-width: 1060px) {
+      gap: 10px;
+    }
+
+    @media (max-width: 700px) {
+      flex-direction: column;
+      gap: 5px;
+    }
+
     a {
       display: block;
       padding: 10px 20px;
@@ -77,17 +110,22 @@ body {
       border: 1px solid black;
       transition: 0.5s;
 
+      @media (max-width: 1060px) {
+        padding: 5px 10px;
+        font-size: 16px;
+      }
+
+      @media (max-width: 700px) {
+        padding: 3px 5px;
+        font-size: 14px;
+        line-height: 1.3;
+      }
+
       &:hover {
         background-color: white;
         transition: 0.5s;
         color: black;
       }
-    }
-
-    &_in {
-    }
-
-    &_up {
     }
   }
 
@@ -96,20 +134,39 @@ body {
     display: none;
     align-items: center;
 
+    @media (max-width: 800px) {
+      gap: 10px;
+    }
+
     &_name {
       font-size: 20px;
+
+      @media (max-width: 450px) {
+        font-size: 16px;
+      }
     }
 
     img {
       width: 30px;
       height: 30px;
+
+      @media (max-width: 450px) {
+        width: 20px;
+        height: 20px;
+      }
     }
 
     &_image {
+      @media (max-width: 450px) {
+        display: none;
+      }
     }
 
     &_exit {
       cursor: pointer;
+      @media (max-width: 450px) {
+        display: none;
+      }
     }
   }
 }
@@ -247,8 +304,17 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: 250px;
-
   gap: 10px;
+  padding: 0 0 10px 0;
+
+  @media (max-width: 700px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 450px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-auto-rows: 200px;
+  }
 
   &__item {
     filter: grayscale(100%);
@@ -277,7 +343,6 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.64);
-  // padding: 5vh 10vw;
   transition: 1s ease;
   z-index: 10;
   display: flex;
