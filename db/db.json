@@ -382,20 +382,32 @@
   "users": [
     {
       "id": 1,
+      "nickname": "TesaloNick",
       "email": "TesaloNick@gmail.com",
       "password": "asdasdasd"
     },
     {
+      "nickname": "sddddf",
       "email": "sddddf@sdf.by",
       "password": "asdasdasd",
       "id": 2
     },
     {
+      "nickname": "sddddf1",
       "email": "sddddf@sdf.by1",
       "password": "asdasdasd",
       "id": 3
+    },
+    {
+      "email": "sddddf@sdf.by2",
+      "nickname": "sddddf2",
+      "password": "asdasdasd",
+      "id": 4
     }
   ],
+  "account": {
+    "condition": true
+  },
   "comments": [
     {
       "id": 1,

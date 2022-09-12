@@ -22,7 +22,7 @@ body {
 }
 
 .active {
-  display: block !important;
+  display: flex !important;
 }
 
 .header {
@@ -55,7 +55,7 @@ body {
 
 .header__sign {
   gap: 20px;
-  display: flex;
+  display: none;
 }
 
 .header__sign a {
@@ -77,8 +77,22 @@ body {
 }
 
 .header__account {
+  align-items: center;
   gap: 20px;
   display: none;
+}
+
+.header__account_name {
+  font-size: 20px;
+}
+
+.header__account img {
+  width: 30px;
+  height: 30px;
+}
+
+.header__account_exit {
+  cursor: pointer;
 }
 
 .inputs {

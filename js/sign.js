@@ -80,6 +80,28 @@ export default class Sign {
     }
   }
 
+  async enterAccount() {
+    await fetch(`${this.BASE_URL}/account`, {
+      method: 'POST',
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        "condition": true
+      })
+    })
+  }
+
+  async exitAccount() {
+    await fetch(`${this.BASE_URL}/account`, {
+      method: 'POST',
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        "condition": false
+      })
+    })
+    document.querySelector('.header__account').classList.remove('active')
+    document.querySelector('.header__sign').classList.add('active')
+  }
+
   async checkSignIn(e) {
     e.preventDefault()
     const signEmail = document.querySelector('.sign__email')
@@ -94,6 +116,13 @@ export default class Sign {
       setTimeout(() => signWrong.classList.remove('active'), 2000)
     } else {
       console.log('YOU RIGHT');
+      this.enterAccount()
+      const user = users.find(item => item.email === signEmail.value)
+      document.querySelector('.header__account_name').innerHTML = user.nickname
+      document.querySelector('.header__account').classList.add('active')
+      document.querySelector('.header__sign').classList.remove('active')
+      document.querySelector('.header__account_exit').addEventListener('click', this.exitAccount.bind(this))
+      this.toggleModal()
     }
   }
 
@@ -104,6 +133,7 @@ export default class Sign {
           <p class='sign__title'>WELCOME to the world of baskettball courts in Minsk</p>
           <h2>FREE Registration</h2>
           <input type="text" name='email' placeholder="email" class="sign__email" value='sddddf@sdf.by' required>
+          <input type="text" name='nickname' placeholder="nickname" class="sign__nickname" value='sddddf' required>
           <input type="text" name='password' placeholder="password" class="sign__password" value='asdasdasd' required>
           <input type="text" placeholder="confirm password" class="sign__password confirm" value='asdasdasd' required>
           <p class='sign__wrong sign__title'>WRONG</p>
