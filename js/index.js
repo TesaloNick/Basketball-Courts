@@ -1,5 +1,5 @@
 import Courts from './courts'
-import SignUp from './sign-up'
+import Sign from './sign'
 
 const courts = new Courts()
-const signUp = new SignUp()
+const sign = new Sign()

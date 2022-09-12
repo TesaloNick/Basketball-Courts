@@ -51,8 +51,9 @@ export default class Court {
               <div id="map"></div>
             </div>
             `
-          this.closeButton.style.top = 'calc(10vh - 45px)'
-          this.closeButton.style.right = 'calc(10vw - 45px)'
+
+          this.closeButton.style.top = `calc((100vh - ${document.querySelector('.modal__wrapper-courts').offsetHeight}px) / 2 - 45px)`
+          this.closeButton.style.right = `calc((100vw - ${document.querySelector('.modal__wrapper-courts').offsetWidth}px) / 2 - 45px)`
 
           const lon = item.coordinates.lon;
           const lat = item.coordinates.lat;

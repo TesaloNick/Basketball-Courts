@@ -535,12 +535,12 @@ function hmrAcceptRun(bundle, id) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _courts = require("./courts");
 var _courtsDefault = parcelHelpers.interopDefault(_courts);
-var _signUp = require("./sign-up");
-var _signUpDefault = parcelHelpers.interopDefault(_signUp);
+var _sign = require("./sign");
+var _signDefault = parcelHelpers.interopDefault(_sign);
 const courts = new (0, _courtsDefault.default)();
-const signUp = new (0, _signUpDefault.default)();
+const sign = new (0, _signDefault.default)();
 
-},{"./courts":"cZ5GQ","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL","./sign-up":"55nlW"}],"cZ5GQ":[function(require,module,exports) {
+},{"./courts":"cZ5GQ","./sign":"80Y4I","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}],"cZ5GQ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _map = require("./map");
@@ -550,6 +550,7 @@ class Court {
         this.courts = document.querySelector(".courts");
         this.modal = null;
         this.modalContainer = document.querySelector(".modal__container");
+        this.closeButton = document.querySelector(".modal__close-button");
         this.BASE_URL = "http://localhost:3001";
         this.renderAll();
     }
@@ -590,6 +591,8 @@ class Court {
               <div id="map"></div>
             </div>
             `;
+                    this.closeButton.style.top = `calc((100vh - ${document.querySelector(".modal__wrapper-courts").offsetHeight}px) / 2 - 45px)`;
+                    this.closeButton.style.right = `calc((100vw - ${document.querySelector(".modal__wrapper-courts").offsetWidth}px) / 2 - 45px)`;
                     const lon = item.coordinates.lon;
                     const lat = item.coordinates.lat;
                     (0, _mapDefault.default)(lat, lon);
@@ -598,9 +601,9 @@ class Court {
                 }
             });
             this.toggleModal();
-            document.querySelector(".modal__close").addEventListener("click", this.toggleModal);
+            this.closeButton.addEventListener("click", this.toggleModal);
         });
-        document.querySelector(".modal__wrapper-close").addEventListener("click", this.toggleModal);
+        document.querySelector(".modal__container-close").addEventListener("click", this.toggleModal);
     }
     async renderAll() {
         const courtsAPI = await this.getCourts();
@@ -624,7 +627,7 @@ function renderMap(lat, lon) {
             lon,
             lat
         ],
-        zoom: 13
+        zoom: 12
     });
     async function getIso(lat, lon) {
         const query = await fetch(`${urlBase}${profile}/${lon},${lat}?contours_minutes=${minutes}&polygons=true&access_token=${mapboxgl.accessToken}`, {
@@ -1017,16 +1020,32 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"55nlW":[function(require,module,exports) {
+},{}],"80Y4I":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-class SignUp {
+var _facebookSvg = require("../images/social/facebook.svg");
+var _facebookSvgDefault = parcelHelpers.interopDefault(_facebookSvg);
+var _twitterSvg = require("../images/social/twitter.svg");
+var _twitterSvgDefault = parcelHelpers.interopDefault(_twitterSvg);
+var _googleSvg = require("../images/social/google.svg");
+var _googleSvgDefault = parcelHelpers.interopDefault(_googleSvg);
+var _vkSvg = require("../images/social/vk.svg");
+var _vkSvgDefault = parcelHelpers.interopDefault(_vkSvg);
+class Sign {
     constructor(){
-        this.signInButton = document.querySelector(".header__sign-up");
+        this.signUpButton = document.querySelector(".header__sign_up");
+        this.signInButton = document.querySelector(".header__sign_in");
         this.modalContainer = document.querySelector(".modal__container");
+        this.closeButton = document.querySelector(".modal__close-button");
+        this.formSignUp = null;
         this.modal = null;
         this.BASE_URL = "http://localhost:3001";
-        this.renderAll();
+        this.formSignIn = null;
+        this.events();
+    }
+    events() {
+        this.signUpButton.addEventListener("click", this.renderSignUp.bind(this));
+        this.signInButton.addEventListener("click", this.renderSignIn.bind(this));
     }
     toggleModal() {
         if (this.modal) this.modal.classList.toggle("open");
@@ -1035,26 +1054,171 @@ class SignUp {
             this.modal.classList.toggle("open");
         }
     }
-    renderForm() {
-        this.signInButton.addEventListener("click", ()=>{
-            this.modalContainer.innerHTML = `
-      <div class="modal__wrapper-sign-in">
-        <form action="" class="form sign-in">
-          <input type="text" placeholder="login" class="sign-in__login">
-          <input type="text" placeholder="password" class="sign-in__password">
-          <button class="sign-in__button">Sign-Up</button>
+    async setUser(user) {
+        await fetch(`${this.BASE_URL}/users`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(user)
+        });
+    }
+    async getUsers() {
+        const response = await fetch(`${this.BASE_URL}/users`);
+        const data = await response.json();
+        return data // добавил
+        ;
+    }
+    async checkSignUp(e) {
+        e.preventDefault();
+        const signEmail = document.querySelector(".sign__email");
+        const signPassword = document.querySelector(".sign__password");
+        const signConfirmPassword = document.querySelector(".sign__password.confirm");
+        const signWrong = document.querySelector(".sign__wrong");
+        const users = await this.getUsers();
+        if (!/^\S+@\S+\.\S+$/gm.test(signEmail.value)) {
+            signWrong.classList.add("active");
+            signWrong.innerHTML = "WRONG FORMAT OF YOUR EMAIL";
+            setTimeout(()=>signWrong.classList.remove("active"), 2000);
+        } else if (signPassword.value.length < 8) {
+            signWrong.classList.add("active");
+            signWrong.innerHTML = "LENGTH OF YOUR PASSWORD MUST BE 8 SYMBOLS OR MORE";
+            setTimeout(()=>signWrong.classList.remove("active"), 2000);
+        } else if (signPassword.value !== signConfirmPassword.value) {
+            signWrong.classList.add("active");
+            signWrong.innerHTML = "YOUR CONFIRMATION PASSWORD IS WRONG";
+            setTimeout(()=>signWrong.classList.remove("active"), 2000);
+        } else if (users.some((item)=>item.email === signEmail.value)) {
+            signWrong.classList.add("active");
+            signWrong.innerHTML = "YOUR EMAIL ALREADY BEEN REGISTERED";
+            setTimeout(()=>signWrong.classList.remove("active"), 2000);
+        } else {
+            const user = {};
+            const formData = new FormData(this.formSignUp);
+            for (let [name, value] of formData)user[name] = value;
+            this.setUser(user);
+            this.toggleModal();
+        }
+    }
+    async checkSignIn(e) {
+        e.preventDefault();
+        const signEmail = document.querySelector(".sign__email");
+        const signPassword = document.querySelector(".sign__password");
+        const signWrong = document.querySelector(".sign__wrong");
+        const users = await this.getUsers();
+        if (!users.some((item)=>item.email === signEmail.value && item.password === signPassword.value)) {
+            signWrong.classList.add("active");
+            signWrong.innerHTML = "WRONG EMAIL OR PASSWORD";
+            setTimeout(()=>signWrong.classList.remove("active"), 2000);
+        } else console.log("YOU RIGHT");
+    }
+    renderSignUp() {
+        this.modalContainer.innerHTML = `
+      <div class="modal__wrapper-sign">
+        <form action="" class="sign sign-up">
+          <p class='sign__title'>WELCOME to the world of baskettball courts in Minsk</p>
+          <h2>FREE Registration</h2>
+          <input type="text" name='email' placeholder="email" class="sign__email" value='sddddf@sdf.by' required>
+          <input type="text" name='password' placeholder="password" class="sign__password" value='asdasdasd' required>
+          <input type="text" placeholder="confirm password" class="sign__password confirm" value='asdasdasd' required>
+          <p class='sign__wrong sign__title'>WRONG</p>
+          <button class="sign__button">Sign-Up</button>
+          <div class='sign__social'>
+            <div><img src=${0, _facebookSvgDefault.default} alt=""></div>
+            <div><img src=${0, _twitterSvgDefault.default} alt=""/></div>
+            <div><img src=${0, _googleSvgDefault.default} alt=""></div>
+            <div><img src=${0, _vkSvgDefault.default} alt=""></div>
+          </div>
+          <a href="#" class='sign__exist sign__button'>I'M ALREADY HAVE ACCOUNT</a>
         </form>
       </div>
       `;
-            this.toggleModal();
-        });
+        document.querySelector(".sign__exist").addEventListener("click", this.renderSignIn.bind(this));
+        this.formSignUp = document.querySelector(".sign-up");
+        this.formSignUp.addEventListener("submit", this.checkSignUp.bind(this));
+        this.makeUpModal();
     }
-    async renderAll() {
-        this.renderForm();
+    renderSignIn() {
+        this.modalContainer.innerHTML = `
+      <div class="modal__wrapper-sign">
+        <form action="" class="sign sign-in">
+          <p class='sign__title'>WELCOME to the world of baskettball courts in Minsk</p>
+          <h2>Enter in your account</h2>
+          <input type="text" name='email' placeholder="email" class="sign__email" value='sddddf@sdf.by' required>
+          <input type="text" name='password' placeholder="password" class="sign__password" value='asdasdasd' required>
+          <p class='sign__wrong sign__title'>WRONG</p>
+          <button class="sign__button">Sign-In</button>
+          <div class='sign__social'>
+            <div><img src=${0, _facebookSvgDefault.default} alt=""></div>
+            <div><img src=${0, _twitterSvgDefault.default} alt=""/></div>
+            <div><img src=${0, _googleSvgDefault.default} alt=""></div>
+            <div><img src=${0, _vkSvgDefault.default} alt=""></div>
+          </div>
+          <a href="#" class='sign__exist-not sign__button'>I DON'T HAVE ACCOUNT YET</a>
+        </form>
+      </div>
+      `;
+        document.querySelector(".sign__exist-not").addEventListener("click", this.renderSignUp.bind(this));
+        this.formSignIn = document.querySelector(".sign-in");
+        this.formSignIn.addEventListener("submit", this.checkSignIn.bind(this));
+        this.makeUpModal();
+    }
+    makeUpModal() {
+        this.closeButton.style.top = `calc((100vh - ${document.querySelector(".modal__wrapper-sign").offsetHeight}px) / 2 - 45px)`;
+        this.closeButton.style.right = `calc((100vw - ${document.querySelector(".modal__wrapper-sign").offsetWidth}px) / 2 - 50px)`;
+        this.closeButton.addEventListener("click", this.toggleModal);
+        this.modal = document.querySelector(".modal");
+        this.modal.classList.add("open");
     }
 }
-exports.default = SignUp;
+exports.default = Sign;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}]},["9bCTy","1Z4Rq"], "1Z4Rq", "parcelRequire1a32")
+},{"../images/social/facebook.svg":"5iJHk","../images/social/twitter.svg":"auM2F","../images/social/google.svg":"9al8o","../images/social/vk.svg":"l9HVN","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}],"5iJHk":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("ksUvU") + "facebook.127b7397.svg" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"4BCQU"}],"4BCQU":[function(require,module,exports) {
+"use strict";
+var bundleURL = {};
+function getBundleURLCached(id) {
+    var value = bundleURL[id];
+    if (!value) {
+        value = getBundleURL();
+        bundleURL[id] = value;
+    }
+    return value;
+}
+function getBundleURL() {
+    try {
+        throw new Error();
+    } catch (err) {
+        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
+        if (matches) // The first two stack frames will be this function and getBundleURLCached.
+        // Use the 3rd one, which will be a runtime in the original bundle.
+        return getBaseURL(matches[2]);
+    }
+    return "/";
+}
+function getBaseURL(url) {
+    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
+} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+function getOrigin(url) {
+    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
+    if (!matches) throw new Error("Origin not found");
+    return matches[0];
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
+
+},{}],"auM2F":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("ksUvU") + "twitter.30ea9ac5.svg" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"4BCQU"}],"9al8o":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("ksUvU") + "google.df45b0c3.svg" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"4BCQU"}],"l9HVN":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("ksUvU") + "vk.a1c38688.svg" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"4BCQU"}]},["9bCTy","1Z4Rq"], "1Z4Rq", "parcelRequire1a32")
 
 //# sourceMappingURL=index.5d9dacde.js.map

@@ -21,14 +21,19 @@ body {
   }
 }
 
+.active {
+  display: block !important;
+}
+
 .header {
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
   display: flex;
 }
 
 .header__left {
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: auto minmax(100px, 150px) auto;
   align-items: center;
   gap: 20px;
   display: grid;
@@ -44,16 +49,16 @@ body {
   cursor: pointer;
 }
 
-.header img {
+.header__logo img {
   width: 152px;
 }
 
-.header__right {
+.header__sign {
   gap: 20px;
   display: flex;
 }
 
-.header__right a {
+.header__sign a {
   color: #fff;
   background-color: #000;
   border: 1px solid #000;
@@ -65,33 +70,15 @@ body {
   display: block;
 }
 
-.header__right a:hover {
+.header__sign a:hover {
   color: #000;
   background-color: #fff;
   transition: all .5s;
 }
 
-.main {
-  grid-template-columns: 1fr 3fr;
-  gap: 10px;
-  display: grid;
-  overflow: hidden;
-}
-
-.main__left {
-  min-width: 300px;
-  z-index: 2;
-  background: #e5e5e5;
-  border: 1px solid #e5e5e5;
-  border-radius: 3px;
-  flex-direction: column;
-  gap: 10px;
-  padding: 15px;
-  display: flex;
-}
-
-.main__right {
-  position: relative;
+.header__account {
+  gap: 20px;
+  display: none;
 }
 
 .inputs {
@@ -199,6 +186,7 @@ body {
 
 .courts {
   grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 250px;
   gap: 10px;
   display: grid;
 }
@@ -226,9 +214,11 @@ body {
   width: 100%;
   height: 100%;
   z-index: 10;
-  background-color: #0003;
-  padding: 5vh 10vw;
+  background-color: #000000a3;
+  justify-content: center;
+  align-items: center;
   transition: all 1s;
+  display: flex;
   position: fixed;
   top: 0;
   left: 100%;
@@ -238,7 +228,7 @@ body {
   left: 0;
 }
 
-.modal__wrapper-close {
+.modal__container-close {
   width: 100%;
   height: 100%;
   cursor: pointer;
@@ -247,40 +237,41 @@ body {
   left: 0;
 }
 
-.modal__close {
+.modal__close-button {
   width: 30px;
   height: 30px;
   cursor: pointer;
   z-index: 11;
   transition: all .5s;
   position: absolute;
-  top: calc(5vh + 10px);
-  right: calc(10vw + 40px);
 }
 
-.modal__close:hover {
+.modal__close-button:hover {
   transition: all .5s;
   transform: rotate(180deg);
 }
 
-.modal__close img {
+.modal__close-button img {
   width: 100%;
   height: 100%;
 }
 
 .modal__container {
-  width: 80vw;
-  height: 90vh;
   background-color: #fff;
   border-radius: 5px;
-  justify-content: center;
   padding: 10px;
   display: flex;
   position: fixed;
 }
 
+.modal__wrapper-sign {
+  width: 40vw;
+  position: relative;
+}
+
 .modal__wrapper-courts {
-  height: 100%;
+  width: 80vw;
+  max-height: 80vh;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   display: grid;
@@ -333,19 +324,81 @@ body {
   align-self: center;
 }
 
-.form {
-  border: 2px solid #000;
-  border-radius: 5px;
+.sign {
+  height: 100%;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 20px;
   padding: 20px;
   display: flex;
 }
 
-.sign-in input {
+.sign__title {
+  text-align: center;
+  font-size: 18px;
+}
+
+.sign h2 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.sign input {
+  width: 100%;
+  border: 1px solid #e6e9ee;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 10px 20px;
+  font-size: 20px;
+}
+
+.sign__button {
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  background-color: #000;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 20px;
+  transition: all .5s;
+  box-shadow: 0 2px 4px #22294324;
+}
+
+.sign__button:hover {
+  color: #000;
+  background-color: #fff;
+  transition: all .5s;
+}
+
+.sign__social {
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+  display: flex;
+}
+
+.sign__social div {
+  width: 40px;
+  cursor: pointer;
+}
+
+.sign__social div img {
+  width: 100%;
+}
+
+.sign__exist, .sign__exist-not {
+  text-align: center;
+  background-color: #000000a3;
+  padding: 8px;
+  font-size: 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.sign__wrong {
+  color: red;
+  display: none;
 }
 
 /*# sourceMappingURL=index.f9a52ea2.css.map */

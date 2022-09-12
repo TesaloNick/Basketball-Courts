@@ -9,7 +9,7 @@ export default function renderMap(lat, lon) {
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
     center: [lon, lat],
-    zoom: 13
+    zoom: 12
   });
 
   async function getIso(lat, lon) {
