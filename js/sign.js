@@ -79,7 +79,7 @@ export default class Sign {
     if (condition) {
       document.querySelector('.header__right').innerHTML = `
       <div class="header__account">
-        <img src=${accountMain} class="header__account_image">
+        <img src=${accountMain}  class="header__account_image">
         <p class="header__account_name">${nickname}</p>
         <img src=${accountExit} class="header__account_exit">
       </div>
