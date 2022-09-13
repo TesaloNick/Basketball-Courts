@@ -2,23 +2,21 @@ import facebook from '../images/social/facebook.svg'
 import twitter from '../images/social/twitter.svg'
 import google from '../images/social/google.svg'
 import vk from '../images/social/vk.svg'
+import accountMain from '../images/account.svg'
+import accountExit from '../images/exit.svg'
 
 export default class Sign {
   constructor() {
-    this.signUpButton = document.querySelector('.header__sign_up')
-    this.signInButton = document.querySelector('.header__sign_in')
+    this.signUpButton = null
+    this.signInButton = null
+    this.exitAccountButton = null
     this.modalContainer = document.querySelector('.modal__container')
     this.closeButton = document.querySelector('.modal__close-button')
     this.formSignUp = null
     this.modal = null
     this.BASE_URL = 'http://localhost:3001'
     this.formSignIn = null
-    this.events()
-  }
-
-  events() {
-    this.signUpButton.addEventListener('click', this.renderSignUp.bind(this))
-    this.signInButton.addEventListener('click', this.renderSignIn.bind(this))
+    this.renderAccount()
   }
 
   toggleModal() {
@@ -42,6 +40,64 @@ export default class Sign {
     const response = await fetch(`${this.BASE_URL}/users`);
     const data = await response.json();
     return data // добавил
+  }
+
+  async getAccountInformation() {
+    const response = await fetch(`${this.BASE_URL}/account`);
+    const data = await response.json();
+    return data // добавил
+  }
+
+  async enterAccount(nickname) {
+    await fetch(`${this.BASE_URL}/account`, {
+      method: 'POST',
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        "condition": true,
+        "nickname": nickname
+      })
+    })
+    await this.renderAccount()
+
+  }
+
+  async exitAccount() {
+    await fetch(`${this.BASE_URL}/account`, {
+      method: 'POST',
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        "condition": false,
+        "nickname": ''
+      })
+    })
+    await this.renderAccount()
+  }
+
+  async renderAccount() {
+    const { condition, nickname } = await this.getAccountInformation()
+
+    if (condition) {
+      document.querySelector('.header__right').innerHTML = `
+      <div class="header__account">
+        <img src=${accountMain} class="header__account_image">
+        <p class="header__account_name">${nickname}</p>
+        <img src=${accountExit} class="header__account_exit">
+      </div>
+      `
+      this.exitAccountButton = document.querySelector('.header__account_exit')
+      this.exitAccountButton.addEventListener('click', this.exitAccount.bind(this))
+    } else {
+      document.querySelector('.header__right').innerHTML = `
+      <div class="header__sign">
+        <a href="#" class="header__sign_in">Sign-In</a>
+        <a href="#" class="header__sign_up">Sign-Up</a>
+      </div>
+      `
+      this.signUpButton = document.querySelector('.header__sign_up')
+      this.signInButton = document.querySelector('.header__sign_in')
+      this.signUpButton.addEventListener('click', this.renderSignUp.bind(this))
+      this.signInButton.addEventListener('click', this.renderSignIn.bind(this))
+    }
   }
 
   async checkSignUp(e) {
@@ -80,28 +136,6 @@ export default class Sign {
     }
   }
 
-  async enterAccount() {
-    await fetch(`${this.BASE_URL}/account`, {
-      method: 'POST',
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        "condition": true
-      })
-    })
-  }
-
-  async exitAccount() {
-    await fetch(`${this.BASE_URL}/account`, {
-      method: 'POST',
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        "condition": false
-      })
-    })
-    document.querySelector('.header__account').classList.remove('active')
-    document.querySelector('.header__sign').classList.add('active')
-  }
-
   async checkSignIn(e) {
     e.preventDefault()
     const signEmail = document.querySelector('.sign__email')
@@ -115,13 +149,8 @@ export default class Sign {
       signWrong.innerHTML = 'WRONG EMAIL OR PASSWORD'
       setTimeout(() => signWrong.classList.remove('active'), 2000)
     } else {
-      console.log('YOU RIGHT');
-      this.enterAccount()
       const user = users.find(item => item.email === signEmail.value)
-      document.querySelector('.header__account_name').innerHTML = user.nickname
-      document.querySelector('.header__account').classList.add('active')
-      document.querySelector('.header__sign').classList.remove('active')
-      document.querySelector('.header__account_exit').addEventListener('click', this.exitAccount.bind(this))
+      this.enterAccount(user.nickname)
       this.toggleModal()
     }
   }

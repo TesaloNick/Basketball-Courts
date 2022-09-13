@@ -87,7 +87,7 @@ body {
   }
 
   &__sign {
-    display: none;
+    display: flex;
     gap: 20px;
 
     @media (max-width: 1060px) {
@@ -131,7 +131,7 @@ body {
 
   &__account {
     gap: 20px;
-    display: none;
+    display: flex;
     align-items: center;
 
     @media (max-width: 800px) {
