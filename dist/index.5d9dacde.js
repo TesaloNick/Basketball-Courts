@@ -596,8 +596,6 @@ class Court {
                     const lon = item.coordinates.lon;
                     const lat = item.coordinates.lat;
                     (0, _mapDefault.default)(lat, lon);
-                // document.querySelector('.mapbox-directions-origin .mapboxgl-ctrl-geocoder > input').value = `${myCurrentPosition.lon.toFixed(5)},${myCurrentPosition.lat.toFixed(5)}`
-                // document.querySelector('.mapbox-directions-destination .mapboxgl-ctrl-geocoder > input').value = `${lon.toFixed(5)},${lat.toFixed(5)}`
                 }
             });
             this.toggleModal();
@@ -1031,21 +1029,22 @@ var _googleSvg = require("../images/social/google.svg");
 var _googleSvgDefault = parcelHelpers.interopDefault(_googleSvg);
 var _vkSvg = require("../images/social/vk.svg");
 var _vkSvgDefault = parcelHelpers.interopDefault(_vkSvg);
+var _accountSvg = require("../images/account.svg");
+var _accountSvgDefault = parcelHelpers.interopDefault(_accountSvg);
+var _exitSvg = require("../images/exit.svg");
+var _exitSvgDefault = parcelHelpers.interopDefault(_exitSvg);
 class Sign {
     constructor(){
-        this.signUpButton = document.querySelector(".header__sign_up");
-        this.signInButton = document.querySelector(".header__sign_in");
+        this.signUpButton = null;
+        this.signInButton = null;
+        this.exitAccountButton = null;
         this.modalContainer = document.querySelector(".modal__container");
         this.closeButton = document.querySelector(".modal__close-button");
         this.formSignUp = null;
         this.modal = null;
         this.BASE_URL = "http://localhost:3001";
         this.formSignIn = null;
-        this.events();
-    }
-    events() {
-        this.signUpButton.addEventListener("click", this.renderSignUp.bind(this));
-        this.signInButton.addEventListener("click", this.renderSignIn.bind(this));
+        this.renderAccount();
     }
     toggleModal() {
         if (this.modal) this.modal.classList.toggle("open");
@@ -1068,6 +1067,63 @@ class Sign {
         const data = await response.json();
         return data // добавил
         ;
+    }
+    async getAccountInformation() {
+        const response = await fetch(`${this.BASE_URL}/account`);
+        const data = await response.json();
+        return data // добавил
+        ;
+    }
+    async enterAccount(nickname) {
+        await fetch(`${this.BASE_URL}/account`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                "condition": true,
+                "nickname": nickname
+            })
+        });
+        await this.renderAccount();
+    }
+    async exitAccount() {
+        await fetch(`${this.BASE_URL}/account`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                "condition": false,
+                "nickname": ""
+            })
+        });
+        await this.renderAccount();
+    }
+    async renderAccount() {
+        const { condition , nickname  } = await this.getAccountInformation();
+        if (condition) {
+            document.querySelector(".header__right").innerHTML = `
+      <div class="header__account">
+        <img src=${0, _accountSvgDefault.default} class="header__account_image">
+        <p class="header__account_name">${nickname}</p>
+        <img src=${0, _exitSvgDefault.default} class="header__account_exit">
+      </div>
+      `;
+            this.exitAccountButton = document.querySelector(".header__account_exit");
+            this.exitAccountButton.addEventListener("click", this.exitAccount.bind(this));
+        } else {
+            document.querySelector(".header__right").innerHTML = `
+      <div class="header__sign">
+        <a href="#" class="header__sign_in">Sign-In</a>
+        <a href="#" class="header__sign_up">Sign-Up</a>
+      </div>
+      `;
+            this.signUpButton = document.querySelector(".header__sign_up");
+            this.signInButton = document.querySelector(".header__sign_in");
+            this.signUpButton.addEventListener("click", this.renderSignUp.bind(this));
+            this.signInButton.addEventListener("click", this.renderSignIn.bind(this));
+        }
     }
     async checkSignUp(e) {
         e.preventDefault();
@@ -1100,30 +1156,6 @@ class Sign {
             this.toggleModal();
         }
     }
-    async enterAccount() {
-        await fetch(`${this.BASE_URL}/account`, {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({
-                "condition": true
-            })
-        });
-    }
-    async exitAccount() {
-        await fetch(`${this.BASE_URL}/account`, {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({
-                "condition": false
-            })
-        });
-        document.querySelector(".header__account").classList.remove("active");
-        document.querySelector(".header__sign").classList.add("active");
-    }
     async checkSignIn(e) {
         e.preventDefault();
         const signEmail = document.querySelector(".sign__email");
@@ -1135,13 +1167,8 @@ class Sign {
             signWrong.innerHTML = "WRONG EMAIL OR PASSWORD";
             setTimeout(()=>signWrong.classList.remove("active"), 2000);
         } else {
-            console.log("YOU RIGHT");
-            this.enterAccount();
             const user = users.find((item)=>item.email === signEmail.value);
-            document.querySelector(".header__account_name").innerHTML = user.nickname;
-            document.querySelector(".header__account").classList.add("active");
-            document.querySelector(".header__sign").classList.remove("active");
-            document.querySelector(".header__account_exit").addEventListener("click", this.exitAccount.bind(this));
+            this.enterAccount(user.nickname);
             this.toggleModal();
         }
     }
@@ -1207,7 +1234,7 @@ class Sign {
 }
 exports.default = Sign;
 
-},{"../images/social/facebook.svg":"5iJHk","../images/social/twitter.svg":"auM2F","../images/social/google.svg":"9al8o","../images/social/vk.svg":"l9HVN","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}],"5iJHk":[function(require,module,exports) {
+},{"../images/social/facebook.svg":"5iJHk","../images/social/twitter.svg":"auM2F","../images/social/google.svg":"9al8o","../images/social/vk.svg":"l9HVN","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL","../images/account.svg":"lXFmq","../images/exit.svg":"8jIyJ"}],"5iJHk":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("ksUvU") + "facebook.127b7397.svg" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"4BCQU"}],"4BCQU":[function(require,module,exports) {
@@ -1252,6 +1279,12 @@ module.exports = require("./helpers/bundle-url").getBundleURL("ksUvU") + "google
 
 },{"./helpers/bundle-url":"4BCQU"}],"l9HVN":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("ksUvU") + "vk.a1c38688.svg" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"4BCQU"}],"lXFmq":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("ksUvU") + "account.3e4a8741.svg" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"4BCQU"}],"8jIyJ":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("ksUvU") + "exit.b873d3a8.svg" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"4BCQU"}]},["9bCTy","1Z4Rq"], "1Z4Rq", "parcelRequire1a32")
 

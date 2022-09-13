@@ -59,8 +59,6 @@ export default class Court {
           const lon = item.coordinates.lon;
           const lat = item.coordinates.lat;
           renderMap(lat, lon)
-          // document.querySelector('.mapbox-directions-origin .mapboxgl-ctrl-geocoder > input').value = `${myCurrentPosition.lon.toFixed(5)},${myCurrentPosition.lat.toFixed(5)}`
-          // document.querySelector('.mapbox-directions-destination .mapboxgl-ctrl-geocoder > input').value = `${lon.toFixed(5)},${lat.toFixed(5)}`
         }
       })
       this.toggleModal()
