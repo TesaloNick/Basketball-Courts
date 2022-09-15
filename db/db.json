@@ -403,11 +403,17 @@
       "nickname": "sddddf2",
       "password": "asdasdasd",
       "id": 4
+    },
+    {
+      "email": "sddddf@sdf.by222",
+      "nickname": "sddddf",
+      "password": "asdasdasd",
+      "id": 5
     }
   ],
   "account": {
-    "condition": true,
-    "nickname": "sddddf"
+    "condition": false,
+    "nickname": ""
   },
   "comments": [
     {

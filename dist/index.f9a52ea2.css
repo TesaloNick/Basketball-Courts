@@ -89,7 +89,6 @@ body {
 
 .header__logo {
   text-align: center;
-  cursor: pointer;
 }
 
 @media (max-width: 800px) {
@@ -378,6 +377,8 @@ body {
   z-index: 11;
   transition: all .5s;
   position: absolute;
+  top: -40px;
+  right: -40px;
 }
 
 .modal__close-button:hover {

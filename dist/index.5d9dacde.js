@@ -537,20 +537,22 @@ var _courts = require("./courts");
 var _courtsDefault = parcelHelpers.interopDefault(_courts);
 var _sign = require("./sign");
 var _signDefault = parcelHelpers.interopDefault(_sign);
-const courts = new (0, _courtsDefault.default)();
-const sign = new (0, _signDefault.default)();
+new (0, _courtsDefault.default)();
+new (0, _signDefault.default)();
 
 },{"./courts":"cZ5GQ","./sign":"80Y4I","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}],"cZ5GQ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _map = require("./map");
 var _mapDefault = parcelHelpers.interopDefault(_map);
-class Court {
+var _modal = require("./modal");
+var _modalDefault = parcelHelpers.interopDefault(_modal);
+var _closeWhitePng = require("../images/close_white.png");
+var _closeWhitePngDefault = parcelHelpers.interopDefault(_closeWhitePng);
+class Court extends (0, _modalDefault.default) {
     constructor(){
+        super();
         this.courts = document.querySelector(".courts");
-        this.modal = null;
-        this.modalContainer = document.querySelector(".modal__container");
-        this.closeButton = document.querySelector(".modal__close-button");
         this.BASE_URL = "http://localhost:3001";
         this.renderAll();
     }
@@ -558,13 +560,6 @@ class Court {
         const response = await fetch(`${this.BASE_URL}/courts`);
         const data = await response.json();
         return data;
-    }
-    toggleModal() {
-        if (this.modal) this.modal.classList.toggle("open");
-        else {
-            this.modal = document.querySelector(".modal");
-            this.modal.classList.toggle("open");
-        }
     }
     async renderCourt(item) {
         const court = document.createElement("div");
@@ -576,6 +571,7 @@ class Court {
             courtsAPI.map((item)=>{
                 if (`court-${item.id}` === e.target.id) {
                     this.modalContainer.innerHTML = `
+            <div class="modal__close-button"><img src=${0, _closeWhitePngDefault.default} alt=""></div>
             <div class="modal__wrapper-courts">
               <div class="modal__img"><img src="${item.photos[0]}" alt=""></div>
               <div class='modal__content'>
@@ -591,17 +587,14 @@ class Court {
               <div id="map"></div>
             </div>
             `;
-                    this.closeButton.style.top = `calc((100vh - ${document.querySelector(".modal__wrapper-courts").offsetHeight}px) / 2 - 45px)`;
-                    this.closeButton.style.right = `calc((100vw - ${document.querySelector(".modal__wrapper-courts").offsetWidth}px) / 2 - 45px)`;
                     const lon = item.coordinates.lon;
                     const lat = item.coordinates.lat;
                     (0, _mapDefault.default)(lat, lon);
                 }
             });
             this.toggleModal();
-            this.closeButton.addEventListener("click", this.toggleModal);
+            document.querySelector(".modal__close-button").addEventListener("click", this.toggleModal);
         });
-        document.querySelector(".modal__container-close").addEventListener("click", this.toggleModal);
     }
     async renderAll() {
         const courtsAPI = await this.getCourts();
@@ -610,7 +603,7 @@ class Court {
 }
 exports.default = Court;
 
-},{"./map":"5VGc0","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}],"5VGc0":[function(require,module,exports) {
+},{"./map":"5VGc0","./modal":"guy4I","../images/close_white.png":"5Squm","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}],"5VGc0":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 function renderMap(lat, lon) {
@@ -643,21 +636,6 @@ function renderMap(lat, lon) {
         lat: lat
     };
     marker.setLngLat(lngLat).addTo(map);
-    // const geocoderFrom = new MapboxGeocoder({
-    //   accessToken: mapboxgl.accessToken,
-    //   mapboxgl: mapboxgl,
-    //   marker: true,
-    //   placeholder: 'address',
-    // });
-    // const geocoderWhere = new MapboxGeocoder({
-    //   accessToken: mapboxgl.accessToken,
-    //   mapboxgl: mapboxgl,
-    //   marker: true,
-    //   placeholder: 'Where',
-    // });
-    // console.log(geocoderWhere, from);
-    // map.addControl(geocoderFrom);
-    // map.addControl(geocoderWhere);
     map.on("load", ()=>{
         map.addSource("iso", {
             type: "geojson",
@@ -692,17 +670,6 @@ function renderMap(lat, lon) {
                 "circle-color": "#448ee4"
             }
         });
-        // geocoderFrom.on('result', (event) => {
-        //   const list = document.querySelector('.list__ul')
-        //   const inputName = document.querySelector('.inputs__name')
-        //   const li = document.createElement('li')
-        //   li.dataset.address = event.result.place_name
-        //   li.innerHTML = inputName.value
-        //   li.classList.add('list__li')
-        //   list.append(li)
-        //   coordinates = event.result.geometry.coordinates
-        //   getIso(coordinates[1], coordinates[0]);
-        // });
         getIso(lat, lon);
         //_______________________
         map.addLayer({
@@ -885,27 +852,6 @@ function renderMap(lat, lon) {
     let collision = "";
     let detail = "";
     const reports = document.getElementById("reports");
-    // function addCard(id, element, clear, detail) {
-    //   const card = document.createElement('div');
-    //   card.className = 'card';
-    //   // Add the response to the individual report created above
-    //   const heading = document.createElement('div');
-    //   // Set the class type based on clear value
-    //   heading.className =
-    //     clear === true
-    //       ? 'card-header route-found'
-    //       : 'card-header obstacle-found';
-    //   heading.innerHTML =
-    //     id === 0
-    //       ? `${emoji} The route ${collision}`
-    //       : `${emoji} Route ${id} ${collision}`;
-    //   const details = document.createElement('div');
-    //   details.className = 'card-details';
-    //   details.innerHTML = `This ${detail} obstacles.`;
-    //   card.appendChild(heading);
-    //   card.appendChild(details);
-    // element.insertBefore(card, element.firstChild);
-    // }
     function noRoutes(element) {
         const card = document.createElement("div");
         card.className = "card";
@@ -938,12 +884,6 @@ function renderMap(lat, lon) {
             });
         });
     }
-    // document.querySelector('.modal__button').addEventListener('click', async () => {
-    //   // directions.onClick()
-    //   const myCurrentPosition = await findCurrentCoordinates()
-    //   document.querySelector('.mapbox-directions-origin .mapboxgl-ctrl-geocoder > input').value = `${myCurrentPosition.lon.toFixed(5)},${myCurrentPosition.lat.toFixed(5)}`
-    //   document.querySelector('.mapbox-directions-destination .mapboxgl-ctrl-geocoder > input').value = `${lon.toFixed(5)},${lat.toFixed(5)}`
-    // })
     directions.on("route", async (event)=>{
         map.setLayoutProperty("theRoute", "visibility", "none");
         map.setLayoutProperty("theBox", "visibility", "none");
@@ -981,9 +921,7 @@ function renderMap(lat, lon) {
                 });
                 directions.setWaypoint(0, randomWaypoint["features"][0].geometry.coordinates);
             }
-        // addCard(counter, reports, clear, detail);
         }
-        console.log(directions);
     });
 }
 exports.default = renderMap;
@@ -1018,6 +956,62 @@ exports.export = function(dest, destName, get) {
     });
 };
 
+},{}],"guy4I":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class Modal {
+    constructor(){
+        this.modalContainer = document.querySelector(".modal__container");
+        this.modal = document.querySelector(".modal");
+        this.events();
+    }
+    events() {
+        document.querySelector(".modal__container-close").addEventListener("click", this.toggleModal);
+    }
+    toggleModal() {
+        this.modal = document.querySelector(".modal");
+        this.modal.classList.toggle("open");
+    }
+}
+exports.default = Modal;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}],"5Squm":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("ksUvU") + "close_white.de9a3339.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"4BCQU"}],"4BCQU":[function(require,module,exports) {
+"use strict";
+var bundleURL = {};
+function getBundleURLCached(id) {
+    var value = bundleURL[id];
+    if (!value) {
+        value = getBundleURL();
+        bundleURL[id] = value;
+    }
+    return value;
+}
+function getBundleURL() {
+    try {
+        throw new Error();
+    } catch (err) {
+        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
+        if (matches) // The first two stack frames will be this function and getBundleURLCached.
+        // Use the 3rd one, which will be a runtime in the original bundle.
+        return getBaseURL(matches[2]);
+    }
+    return "/";
+}
+function getBaseURL(url) {
+    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
+} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+function getOrigin(url) {
+    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
+    if (!matches) throw new Error("Origin not found");
+    return matches[0];
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
+
 },{}],"80Y4I":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -1033,25 +1027,20 @@ var _accountSvg = require("../images/account.svg");
 var _accountSvgDefault = parcelHelpers.interopDefault(_accountSvg);
 var _exitSvg = require("../images/exit.svg");
 var _exitSvgDefault = parcelHelpers.interopDefault(_exitSvg);
-class Sign {
+var _closeWhitePng = require("../images/close_white.png");
+var _closeWhitePngDefault = parcelHelpers.interopDefault(_closeWhitePng);
+var _modal = require("./modal");
+var _modalDefault = parcelHelpers.interopDefault(_modal);
+class Sign extends (0, _modalDefault.default) {
     constructor(){
+        super();
         this.signUpButton = null;
         this.signInButton = null;
         this.exitAccountButton = null;
-        this.modalContainer = document.querySelector(".modal__container");
-        this.closeButton = document.querySelector(".modal__close-button");
         this.formSignUp = null;
-        this.modal = null;
         this.BASE_URL = "http://localhost:3001";
         this.formSignIn = null;
         this.renderAccount();
-    }
-    toggleModal() {
-        if (this.modal) this.modal.classList.toggle("open");
-        else {
-            this.modal = document.querySelector(".modal");
-            this.modal.classList.toggle("open");
-        }
     }
     async setUser(user) {
         await fetch(`${this.BASE_URL}/users`, {
@@ -1071,8 +1060,7 @@ class Sign {
     async getAccountInformation() {
         const response = await fetch(`${this.BASE_URL}/account`);
         const data = await response.json();
-        return data // добавил
-        ;
+        return data;
     }
     async enterAccount(nickname) {
         await fetch(`${this.BASE_URL}/account`, {
@@ -1174,6 +1162,7 @@ class Sign {
     }
     renderSignUp() {
         this.modalContainer.innerHTML = `
+      <div class="modal__close-button"><img src=${0, _closeWhitePngDefault.default} alt=""></div>
       <div class="modal__wrapper-sign">
         <form action="" class="sign sign-up">
           <p class='sign__title'>WELCOME to the world of baskettball courts in Minsk</p>
@@ -1194,13 +1183,15 @@ class Sign {
         </form>
       </div>
       `;
-        document.querySelector(".sign__exist").addEventListener("click", this.renderSignIn.bind(this));
         this.formSignUp = document.querySelector(".sign-up");
         this.formSignUp.addEventListener("submit", this.checkSignUp.bind(this));
-        this.makeUpModal();
+        document.querySelector(".sign__exist").addEventListener("click", this.renderSignIn.bind(this));
+        document.querySelector(".modal__close-button").addEventListener("click", this.toggleModal);
+        if (!this.modal.classList.contains("open")) this.toggleModal();
     }
     renderSignIn() {
         this.modalContainer.innerHTML = `
+      <div class="modal__close-button"><img src=${0, _closeWhitePngDefault.default} alt=""></div>
       <div class="modal__wrapper-sign">
         <form action="" class="sign sign-in">
           <p class='sign__title'>WELCOME to the world of baskettball courts in Minsk</p>
@@ -1219,59 +1210,19 @@ class Sign {
         </form>
       </div>
       `;
-        document.querySelector(".sign__exist-not").addEventListener("click", this.renderSignUp.bind(this));
         this.formSignIn = document.querySelector(".sign-in");
         this.formSignIn.addEventListener("submit", this.checkSignIn.bind(this));
-        this.makeUpModal();
-    }
-    makeUpModal() {
-        this.closeButton.style.top = `calc((100vh - ${document.querySelector(".modal__wrapper-sign").offsetHeight}px) / 2 - 45px)`;
-        this.closeButton.style.right = `calc((100vw - ${document.querySelector(".modal__wrapper-sign").offsetWidth}px) / 2 - 50px)`;
-        this.closeButton.addEventListener("click", this.toggleModal);
-        this.modal = document.querySelector(".modal");
-        this.modal.classList.add("open");
+        document.querySelector(".sign__exist-not").addEventListener("click", this.renderSignUp.bind(this));
+        document.querySelector(".modal__close-button").addEventListener("click", this.toggleModal);
+        if (!this.modal.classList.contains("open")) this.toggleModal();
     }
 }
 exports.default = Sign;
 
-},{"../images/social/facebook.svg":"5iJHk","../images/social/twitter.svg":"auM2F","../images/social/google.svg":"9al8o","../images/social/vk.svg":"l9HVN","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL","../images/account.svg":"lXFmq","../images/exit.svg":"8jIyJ"}],"5iJHk":[function(require,module,exports) {
+},{"../images/social/facebook.svg":"5iJHk","../images/social/twitter.svg":"auM2F","../images/social/google.svg":"9al8o","../images/social/vk.svg":"l9HVN","../images/account.svg":"lXFmq","../images/exit.svg":"8jIyJ","../images/close_white.png":"5Squm","./modal":"guy4I","@parcel/transformer-js/src/esmodule-helpers.js":"az0mL"}],"5iJHk":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("ksUvU") + "facebook.127b7397.svg" + "?" + Date.now();
 
-},{"./helpers/bundle-url":"4BCQU"}],"4BCQU":[function(require,module,exports) {
-"use strict";
-var bundleURL = {};
-function getBundleURLCached(id) {
-    var value = bundleURL[id];
-    if (!value) {
-        value = getBundleURL();
-        bundleURL[id] = value;
-    }
-    return value;
-}
-function getBundleURL() {
-    try {
-        throw new Error();
-    } catch (err) {
-        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
-        if (matches) // The first two stack frames will be this function and getBundleURLCached.
-        // Use the 3rd one, which will be a runtime in the original bundle.
-        return getBaseURL(matches[2]);
-    }
-    return "/";
-}
-function getBaseURL(url) {
-    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
-} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
-function getOrigin(url) {
-    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
-    if (!matches) throw new Error("Origin not found");
-    return matches[0];
-}
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-exports.getOrigin = getOrigin;
-
-},{}],"auM2F":[function(require,module,exports) {
+},{"./helpers/bundle-url":"4BCQU"}],"auM2F":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("ksUvU") + "twitter.30ea9ac5.svg" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"4BCQU"}],"9al8o":[function(require,module,exports) {

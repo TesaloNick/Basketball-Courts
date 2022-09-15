@@ -4,28 +4,19 @@ import google from '../images/social/google.svg'
 import vk from '../images/social/vk.svg'
 import accountMain from '../images/account.svg'
 import accountExit from '../images/exit.svg'
+import closeButton from '../images/close_white.png'
+import Modal from './modal'
 
-export default class Sign {
+export default class Sign extends Modal {
   constructor() {
+    super()
     this.signUpButton = null
     this.signInButton = null
     this.exitAccountButton = null
-    this.modalContainer = document.querySelector('.modal__container')
-    this.closeButton = document.querySelector('.modal__close-button')
     this.formSignUp = null
-    this.modal = null
     this.BASE_URL = 'http://localhost:3001'
     this.formSignIn = null
     this.renderAccount()
-  }
-
-  toggleModal() {
-    if (this.modal) {
-      this.modal.classList.toggle('open')
-    } else {
-      this.modal = document.querySelector('.modal')
-      this.modal.classList.toggle('open')
-    }
   }
 
   async setUser(user) {
@@ -45,7 +36,7 @@ export default class Sign {
   async getAccountInformation() {
     const response = await fetch(`${this.BASE_URL}/account`);
     const data = await response.json();
-    return data // добавил
+    return data
   }
 
   async enterAccount(nickname) {
@@ -157,6 +148,7 @@ export default class Sign {
 
   renderSignUp() {
     this.modalContainer.innerHTML = `
+      <div class="modal__close-button"><img src=${closeButton} alt=""></div>
       <div class="modal__wrapper-sign">
         <form action="" class="sign sign-up">
           <p class='sign__title'>WELCOME to the world of baskettball courts in Minsk</p>
@@ -178,14 +170,16 @@ export default class Sign {
       </div>
       `
 
-    document.querySelector('.sign__exist').addEventListener('click', this.renderSignIn.bind(this))
     this.formSignUp = document.querySelector('.sign-up')
     this.formSignUp.addEventListener('submit', this.checkSignUp.bind(this))
-    this.makeUpModal()
+    document.querySelector('.sign__exist').addEventListener('click', this.renderSignIn.bind(this))
+    document.querySelector('.modal__close-button').addEventListener('click', this.toggleModal)
+    if (!this.modal.classList.contains('open')) this.toggleModal()
   }
 
   renderSignIn() {
     this.modalContainer.innerHTML = `
+      <div class="modal__close-button"><img src=${closeButton} alt=""></div>
       <div class="modal__wrapper-sign">
         <form action="" class="sign sign-in">
           <p class='sign__title'>WELCOME to the world of baskettball courts in Minsk</p>
@@ -205,17 +199,10 @@ export default class Sign {
       </div>
       `
 
-    document.querySelector('.sign__exist-not').addEventListener('click', this.renderSignUp.bind(this))
     this.formSignIn = document.querySelector('.sign-in')
     this.formSignIn.addEventListener('submit', this.checkSignIn.bind(this))
-    this.makeUpModal()
-  }
-
-  makeUpModal() {
-    this.closeButton.style.top = `calc((100vh - ${document.querySelector('.modal__wrapper-sign').offsetHeight}px) / 2 - 45px)`
-    this.closeButton.style.right = `calc((100vw - ${document.querySelector('.modal__wrapper-sign').offsetWidth}px) / 2 - 50px)`
-    this.closeButton.addEventListener('click', this.toggleModal)
-    this.modal = document.querySelector('.modal')
-    this.modal.classList.add('open')
+    document.querySelector('.sign__exist-not').addEventListener('click', this.renderSignUp.bind(this))
+    document.querySelector('.modal__close-button').addEventListener('click', this.toggleModal)
+    if (!this.modal.classList.contains('open')) this.toggleModal()
   }
 }

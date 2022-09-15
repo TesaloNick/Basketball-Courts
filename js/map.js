@@ -34,24 +34,6 @@ export default function renderMap(lat, lon) {
   marker.setLngLat(lngLat).addTo(map);
 
 
-  // const geocoderFrom = new MapboxGeocoder({
-  //   accessToken: mapboxgl.accessToken,
-  //   mapboxgl: mapboxgl,
-  //   marker: true,
-  //   placeholder: 'address',
-  // });
-
-  // const geocoderWhere = new MapboxGeocoder({
-  //   accessToken: mapboxgl.accessToken,
-  //   mapboxgl: mapboxgl,
-  //   marker: true,
-  //   placeholder: 'Where',
-  // });
-
-  // console.log(geocoderWhere, from);
-  // map.addControl(geocoderFrom);
-  // map.addControl(geocoderWhere);
-
   map.on('load', () => {
     map.addSource('iso', {
       type: 'geojson',
@@ -89,18 +71,7 @@ export default function renderMap(lat, lon) {
         'circle-color': '#448ee4'
       }
     })
-    // geocoderFrom.on('result', (event) => {
-    //   const list = document.querySelector('.list__ul')
-    //   const inputName = document.querySelector('.inputs__name')
-    //   const li = document.createElement('li')
-    //   li.dataset.address = event.result.place_name
-    //   li.innerHTML = inputName.value
-    //   li.classList.add('list__li')
-    //   list.append(li)
 
-    //   coordinates = event.result.geometry.coordinates
-    //   getIso(coordinates[1], coordinates[0]);
-    // });
     getIso(lat, lon);
 
     //_______________________
@@ -266,30 +237,6 @@ export default function renderMap(lat, lon) {
   let detail = '';
   const reports = document.getElementById('reports');
 
-  // function addCard(id, element, clear, detail) {
-  //   const card = document.createElement('div');
-  //   card.className = 'card';
-  //   // Add the response to the individual report created above
-  //   const heading = document.createElement('div');
-  //   // Set the class type based on clear value
-  //   heading.className =
-  //     clear === true
-  //       ? 'card-header route-found'
-  //       : 'card-header obstacle-found';
-  //   heading.innerHTML =
-  //     id === 0
-  //       ? `${emoji} The route ${collision}`
-  //       : `${emoji} Route ${id} ${collision}`;
-
-  //   const details = document.createElement('div');
-  //   details.className = 'card-details';
-  //   details.innerHTML = `This ${detail} obstacles.`;
-
-  //   card.appendChild(heading);
-  //   card.appendChild(details);
-  // element.insertBefore(card, element.firstChild);
-  // }
-
   function noRoutes(element) {
     const card = document.createElement('div');
     card.className = 'card';
@@ -329,13 +276,6 @@ export default function renderMap(lat, lon) {
       );
     })
   }
-
-  // document.querySelector('.modal__button').addEventListener('click', async () => {
-  //   // directions.onClick()
-  //   const myCurrentPosition = await findCurrentCoordinates()
-  //   document.querySelector('.mapbox-directions-origin .mapboxgl-ctrl-geocoder > input').value = `${myCurrentPosition.lon.toFixed(5)},${myCurrentPosition.lat.toFixed(5)}`
-  //   document.querySelector('.mapbox-directions-destination .mapboxgl-ctrl-geocoder > input').value = `${lon.toFixed(5)},${lat.toFixed(5)}`
-  // })
 
   directions.on('route', async (event) => {
     map.setLayoutProperty('theRoute', 'visibility', 'none');
@@ -385,10 +325,7 @@ export default function renderMap(lat, lon) {
             randomWaypoint['features'][0].geometry.coordinates
           );
         }
-        // addCard(counter, reports, clear, detail);
       }
     }
-
-    console.log(directions);
   });
 }

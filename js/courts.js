@@ -1,29 +1,19 @@
 import renderMap from './map'
+import Modal from './modal'
+import closeButton from '../images/close_white.png'
 
-export default class Court {
+export default class Court extends Modal {
   constructor() {
+    super()
     this.courts = document.querySelector('.courts')
-    this.modal = null
-    this.modalContainer = document.querySelector('.modal__container')
-    this.closeButton = document.querySelector('.modal__close-button')
     this.BASE_URL = 'http://localhost:3001'
     this.renderAll()
-
   }
 
   async getCourts() {
     const response = await fetch(`${this.BASE_URL}/courts`)
     const data = await response.json()
     return data
-  }
-
-  toggleModal() {
-    if (this.modal) {
-      this.modal.classList.toggle('open')
-    } else {
-      this.modal = document.querySelector('.modal')
-      this.modal.classList.toggle('open')
-    }
   }
 
   async renderCourt(item) {
@@ -37,6 +27,7 @@ export default class Court {
       courtsAPI.map(item => {
         if (`court-${item.id}` === e.target.id) {
           this.modalContainer.innerHTML = `
+            <div class="modal__close-button"><img src=${closeButton} alt=""></div>
             <div class="modal__wrapper-courts">
               <div class="modal__img"><img src="${item.photos[0]}" alt=""></div>
               <div class='modal__content'>
@@ -53,18 +44,14 @@ export default class Court {
             </div>
             `
 
-          this.closeButton.style.top = `calc((100vh - ${document.querySelector('.modal__wrapper-courts').offsetHeight}px) / 2 - 45px)`
-          this.closeButton.style.right = `calc((100vw - ${document.querySelector('.modal__wrapper-courts').offsetWidth}px) / 2 - 45px)`
-
           const lon = item.coordinates.lon;
           const lat = item.coordinates.lat;
           renderMap(lat, lon)
         }
       })
       this.toggleModal()
-      this.closeButton.addEventListener('click', this.toggleModal)
+      document.querySelector('.modal__close-button').addEventListener('click', this.toggleModal)
     })
-    document.querySelector('.modal__container-close').addEventListener('click', this.toggleModal)
   }
 
   async renderAll() {
