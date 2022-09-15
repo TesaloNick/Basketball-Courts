@@ -147,7 +147,7 @@ export default function renderMap(lat, lon) {
     flyTo: false
   });
 
-  map.addControl(directions, 'top-left');
+  // map.addControl(directions, 'top-left');
   map.scrollZoom.enable();
 
   const clearances = {

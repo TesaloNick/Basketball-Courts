@@ -377,8 +377,17 @@ body {
   z-index: 11;
   transition: all .5s;
   position: absolute;
-  top: -40px;
-  right: -40px;
+  top: -35px;
+  right: -35px;
+}
+
+@media (max-width: 450px) {
+  .modal__close-button {
+    width: 20px;
+    height: 20px;
+    top: -25px;
+    right: -25px;
+  }
 }
 
 .modal__close-button:hover {
@@ -404,9 +413,27 @@ body {
   position: relative;
 }
 
-.modal__wrapper-courts {
+@media (max-width: 1000px) {
+  .modal__wrapper-sign {
+    width: 60vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal__wrapper-sign {
+    width: calc(100vw - 120px);
+  }
+}
+
+@media (max-width: 450px) {
+  .modal__wrapper-sign {
+    width: calc(100vw - 80px);
+  }
+}
+
+.court {
   width: 80vw;
-  max-height: 80vh;
+  height: 80vh;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   display: grid;
@@ -414,49 +441,123 @@ body {
   overflow: auto;
 }
 
-.modal__content {
+@media (max-width: 1230px) {
+  .court {
+    height: calc(100vh - 120px);
+    width: calc(100vw - 120px);
+  }
+}
+
+@media (max-width: 900px) {
+  .court {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 450px) {
+  .court {
+    height: calc(100vh - 80px);
+    width: calc(100vw - 80px);
+  }
+}
+
+.court__content {
   flex-direction: column;
   align-items: start;
-  gap: 15px;
+  gap: 10px;
   display: flex;
 }
 
-.modal__img img {
+.court__img img {
   width: 100%;
 }
 
-.modal__name {
-  font-size: 24px;
+.court__name {
+  font-size: 30px;
   font-weight: bold;
+  line-height: 1.4;
 }
 
-.modal__address {
+@media (max-width: 1050px) {
+  .court__name {
+    font-size: 25px;
+  }
+}
+
+@media (max-width: 900px) {
+  .court__name {
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 550px) {
+  .court__name {
+    font-size: 20px;
+  }
+}
+
+.court__address {
   font-size: 20px;
 }
 
-.modal__schedule {
-  font-size: 14px;
+@media (max-width: 1050px) {
+  .court__address {
+    font-size: 18px;
+  }
 }
 
-.modal__schedule li {
-  line-height: 1.1;
+@media (max-width: 550px) {
+  .court__address {
+    font-size: 16px;
+  }
 }
 
-.modal__button {
+.court__address span {
+  font-weight: bold;
+}
+
+.court__schedule {
+  font-size: 18px;
+}
+
+@media (max-width: 1050px) {
+  .court__schedule {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 550px) {
+  .court__schedule {
+    font-size: 14px;
+  }
+}
+
+.court__schedule p {
+  font-weight: bold;
+}
+
+.court__schedule li {
+  line-height: 1.2;
+}
+
+.court__button {
   background-color: #223c504d;
   border-radius: 5px;
   padding: 5px 10px;
   box-shadow: 0 4px 8px #223c5033;
 }
 
-.modal #map {
+.court #map {
   height: 50vh;
   width: 100%;
   grid-column: 1 / 3;
 }
 
-.modal__wrapper-sign-in {
-  align-self: center;
+@media (max-width: 900px) {
+  .court #map {
+    grid-column: 1 / 2;
+  }
 }
 
 .sign {
@@ -469,14 +570,33 @@ body {
   display: flex;
 }
 
+@media (max-width: 450px) {
+  .sign {
+    gap: 15px;
+    padding: 5px;
+  }
+}
+
 .sign__title {
   text-align: center;
   font-size: 18px;
 }
 
+@media (max-width: 450px) {
+  .sign__title {
+    font-size: 14px;
+  }
+}
+
 .sign h2 {
   font-size: 20px;
   font-weight: bold;
+}
+
+@media (max-width: 450px) {
+  .sign h2 {
+    font-size: 16px;
+  }
 }
 
 .sign input {
@@ -485,6 +605,13 @@ body {
   border-radius: 5px;
   padding: 10px 20px;
   font-size: 20px;
+}
+
+@media (max-width: 450px) {
+  .sign input {
+    padding: 5px 10px;
+    font-size: 16px;
+  }
 }
 
 .sign__button {
@@ -498,6 +625,13 @@ body {
   font-size: 20px;
   transition: all .5s;
   box-shadow: 0 2px 4px #22294324;
+}
+
+@media (max-width: 450px) {
+  .sign__button {
+    padding: 5px;
+    font-size: 16px;
+  }
 }
 
 .sign__button:hover {
@@ -518,6 +652,12 @@ body {
   cursor: pointer;
 }
 
+@media (max-width: 450px) {
+  .sign__social div {
+    width: 30px;
+  }
+}
+
 .sign__social div img {
   width: 100%;
 }
@@ -529,6 +669,13 @@ body {
   font-size: 16px;
   text-decoration: none;
   display: block;
+}
+
+@media (max-width: 450px) {
+  .sign__exist, .sign__exist-not {
+    padding: 5px;
+    font-size: 12px;
+  }
 }
 
 .sign__wrong {

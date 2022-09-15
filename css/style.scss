@@ -364,13 +364,20 @@ body {
 
   &__close-button {
     position: absolute;
-    top: -40px;
-    right: -40px;
+    top: -35px;
+    right: -35px;
     width: 30px;
     height: 30px;
     transition: 0.5s;
     cursor: pointer;
     z-index: 11;
+
+    @media (max-width: 450px) {
+      top: -25px;
+      right: -25px;
+      width: 20px;
+      height: 20px;
+    }
 
     &:hover {
       transition: 0.5s;
@@ -394,23 +401,50 @@ body {
   &__wrapper-sign {
     width: 40vw;
     position: relative;
+
+    @media (max-width: 1000px) {
+      width: 60vw;
+    }
+
+    @media (max-width: 600px) {
+      width: calc(100vw - 120px);
+    }
+
+    @media (max-width: 450px) {
+      width: calc(100vw - 80px);
+    }
+  }
+}
+
+.court {
+  width: 80vw;
+  height: 80vh;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  overflow: auto;
+
+  @media (max-width: 1230px) {
+    height: calc(100vh - 120px);
+    width: calc(100vw - 120px);
   }
 
-  &__wrapper-courts {
-    width: 80vw;
-    max-height: 80vh;
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    overflow: auto;
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  @media (max-width: 450px) {
+    height: calc(100vh - 80px);
+    width: calc(100vw - 80px);
   }
 
   &__content {
     display: flex;
     flex-direction: column;
     align-items: start;
-    gap: 15px;
+    gap: 10px;
   }
 
   &__img {
@@ -420,19 +454,56 @@ body {
   }
 
   &__name {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
+    line-height: 1.4;
+
+    @media (max-width: 1050px) {
+      font-size: 25px;
+    }
+
+    @media (max-width: 900px) {
+      line-height: 1.2;
+    }
+
+    @media (max-width: 550px) {
+      font-size: 20px;
+    }
   }
 
   &__address {
     font-size: 20px;
+
+    @media (max-width: 1050px) {
+      font-size: 18px;
+    }
+
+    @media (max-width: 550px) {
+      font-size: 16px;
+    }
+
+    span {
+      font-weight: bold;
+    }
   }
 
   &__schedule {
-    font-size: 14px;
+    font-size: 18px;
+
+    @media (max-width: 1050px) {
+      font-size: 16px;
+    }
+
+    @media (max-width: 550px) {
+      font-size: 14px;
+    }
+
+    p {
+      font-weight: bold;
+    }
 
     li {
-      line-height: 1.1;
+      line-height: 1.2;
     }
   }
 
@@ -449,10 +520,10 @@ body {
     grid-column: 1/3;
     height: 50vh;
     width: 100%;
-  }
 
-  &__wrapper-sign-in {
-    align-self: center;
+    @media (max-width: 900px) {
+      grid-column: 1/2;
+    }
   }
 }
 
@@ -465,14 +536,27 @@ body {
   padding: 20px;
   height: 100%;
 
+  @media (max-width: 450px) {
+    padding: 5px;
+    gap: 15px;
+  }
+
   &__title {
     font-size: 18px;
     text-align: center;
+
+    @media (max-width: 450px) {
+      font-size: 14px;
+    }
   }
 
   h2 {
     font-size: 20px;
     font-weight: bold;
+
+    @media (max-width: 450px) {
+      font-size: 16px;
+    }
   }
 
   input {
@@ -481,6 +565,11 @@ body {
     padding: 10px 20px;
     border-radius: 5px;
     border: 1px solid #e6e9ee;
+
+    @media (max-width: 450px) {
+      font-size: 16px;
+      padding: 5px 10px;
+    }
   }
   &__email {
   }
@@ -500,6 +589,11 @@ body {
     box-shadow: 0 2px 4px 0 rgba(34, 41, 67, 0.14);
     transition: 0.5s;
 
+    @media (max-width: 450px) {
+      font-size: 16px;
+      padding: 5px;
+    }
+
     &:hover {
       color: black;
       transition: 0.5s;
@@ -517,6 +611,9 @@ body {
       width: 40px;
       cursor: pointer;
 
+      @media (max-width: 450px) {
+        width: 30px;
+      }
       img {
         width: 100%;
       }
@@ -531,6 +628,11 @@ body {
     text-decoration: none;
     padding: 8px;
     background-color: rgba(0, 0, 0, 0.64);
+
+    @media (max-width: 450px) {
+      font-size: 12px;
+      padding: 5px;
+    }
   }
 
   &__wrong {

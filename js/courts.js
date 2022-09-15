@@ -28,13 +28,13 @@ export default class Court extends Modal {
         if (`court-${item.id}` === e.target.id) {
           this.modalContainer.innerHTML = `
             <div class="modal__close-button"><img src=${closeButton} alt=""></div>
-            <div class="modal__wrapper-courts">
-              <div class="modal__img"><img src="${item.photos[0]}" alt=""></div>
-              <div class='modal__content'>
-                <h2 class="modal__name">${item.name}</h2>
-                <p class="modal__address">Адресс: ${item.address}</p>
-                <ul class="modal__schedule">
-                  <p>РАСПИСАНИЕ:</p>
+            <div class="modal__wrapper-courts court">
+              <div class="court__img"><img src="${item.photos[0]}" alt=""></div>
+              <div class='court__content'>
+                <h2 class="court__name">${item.name}</h2>
+                <p class="court__address"><span>Адресс:</span> ${item.address}</p>
+                <ul class="court__schedule">
+                  <p>Часы работы:</p>
                   ${item.schedule.map(li => `
                     <li>${li.day}: ${li.time}</li>
                   `).join('')}
