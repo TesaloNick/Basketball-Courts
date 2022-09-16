@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TesaloNick/Delivery-App.git"
+    "url": "git+https://github.com/TesaloNick/Basketball-Courts.git"
   },
-  "author": "Kirill feat Nikolay",
+  "author": "Nikolay",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TesaloNick/Delivery-App/issues"
+    "url": "https://github.com/TesaloNick/Basketball-Courts/issues"
   },
-  "homepage": "https://github.com/TesaloNick/Delivery-App#readme",
+  "homepage": "https://github.com/TesaloNick/Basketball-Courts#readme",
   "dependencies": {
     "json-server": "^0.17.0"
   },
