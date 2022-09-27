@@ -46,7 +46,7 @@ export default class Court extends Modal {
 
           const lon = item.coordinates.lon;
           const lat = item.coordinates.lat;
-          renderMap(lat, lon)
+          setTimeout(() => renderMap(lat, lon), 1000)
         }
       })
       this.toggleModal()

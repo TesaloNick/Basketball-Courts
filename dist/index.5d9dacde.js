@@ -589,7 +589,7 @@ class Court extends (0, _modalDefault.default) {
             `;
                     const lon = item.coordinates.lon;
                     const lat = item.coordinates.lat;
-                    (0, _mapDefault.default)(lat, lon);
+                    setTimeout(()=>(0, _mapDefault.default)(lat, lon), 1000);
                 }
             });
             this.toggleModal();
