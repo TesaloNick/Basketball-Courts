@@ -153,10 +153,10 @@ export default class Sign extends Modal {
         <form action="" class="sign sign-up">
           <p class='sign__title'>WELCOME to the world of baskettball courts in Minsk</p>
           <h2>FREE Registration</h2>
-          <input type="text" name='email' placeholder="email" class="sign__email" value='sddddf@sdf.by' required>
-          <input type="text" name='nickname' placeholder="nickname" class="sign__nickname" value='sddddf' required>
-          <input type="text" name='password' placeholder="password" class="sign__password" value='asdasdasd' required>
-          <input type="text" placeholder="confirm password" class="sign__password confirm" value='asdasdasd' required>
+          <input type="text" name='email' placeholder="email" class="sign__email" value='' required>
+          <input type="text" name='nickname' placeholder="nickname" class="sign__nickname" value='' required>
+          <input type="text" name='password' placeholder="password" class="sign__password" value='' required>
+          <input type="text" placeholder="confirm password" class="sign__password confirm" value='' required>
           <p class='sign__wrong sign__title'>WRONG</p>
           <button class="sign__button">Sign-Up</button>
           <div class='sign__social'>
@@ -184,8 +184,8 @@ export default class Sign extends Modal {
         <form action="" class="sign sign-in">
           <p class='sign__title'>WELCOME to the world of baskettball courts in Minsk</p>
           <h2>Enter in your account</h2>
-          <input type="text" name='email' placeholder="email" class="sign__email" value='sddddf@sdf.by' required>
-          <input type="text" name='password' placeholder="password" class="sign__password" value='asdasdasd' required>
+          <input type="text" name='email' placeholder="email" class="sign__email" value='' required>
+          <input type="text" name='password' placeholder="password" class="sign__password" value='' required>
           <p class='sign__wrong sign__title'>WRONG</p>
           <button class="sign__button">Sign-In</button>
           <div class='sign__social'>

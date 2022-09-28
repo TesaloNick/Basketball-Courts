@@ -654,7 +654,9 @@ var Court = /*#__PURE__*/function (_Modal) {
                       }).join(''), "\n                </ul>\n              </div>\n              <div id=\"map\"></div>\n            </div>\n            ");
                       var lon = item.coordinates.lon;
                       var lat = item.coordinates.lat;
-                      (0, _map.default)(lat, lon);
+                      setTimeout(function () {
+                        return (0, _map.default)(lat, lon);
+                      }, 1000);
                     }
                   });
 
@@ -1174,7 +1176,7 @@ var Sign = /*#__PURE__*/function (_Modal) {
   }, {
     key: "renderSignUp",
     value: function renderSignUp() {
-      this.modalContainer.innerHTML = "\n      <div class=\"modal__close-button\"><img src=".concat(_close_white.default, " alt=\"\"></div>\n      <div class=\"modal__wrapper-sign\">\n        <form action=\"\" class=\"sign sign-up\">\n          <p class='sign__title'>WELCOME to the world of baskettball courts in Minsk</p>\n          <h2>FREE Registration</h2>\n          <input type=\"text\" name='email' placeholder=\"email\" class=\"sign__email\" value='sddddf@sdf.by' required>\n          <input type=\"text\" name='nickname' placeholder=\"nickname\" class=\"sign__nickname\" value='sddddf' required>\n          <input type=\"text\" name='password' placeholder=\"password\" class=\"sign__password\" value='asdasdasd' required>\n          <input type=\"text\" placeholder=\"confirm password\" class=\"sign__password confirm\" value='asdasdasd' required>\n          <p class='sign__wrong sign__title'>WRONG</p>\n          <button class=\"sign__button\">Sign-Up</button>\n          <div class='sign__social'>\n            <div><img src=").concat(_facebook.default, " alt=\"\"></div>\n            <div><img src=").concat(_twitter.default, " alt=\"\"/></div>\n            <div><img src=").concat(_google.default, " alt=\"\"></div>\n            <div><img src=").concat(_vk.default, " alt=\"\"></div>\n          </div>\n          <a href=\"#\" class='sign__exist sign__button'>I'M ALREADY HAVE ACCOUNT</a>\n        </form>\n      </div>\n      ");
+      this.modalContainer.innerHTML = "\n      <div class=\"modal__close-button\"><img src=".concat(_close_white.default, " alt=\"\"></div>\n      <div class=\"modal__wrapper-sign\">\n        <form action=\"\" class=\"sign sign-up\">\n          <p class='sign__title'>WELCOME to the world of baskettball courts in Minsk</p>\n          <h2>FREE Registration</h2>\n          <input type=\"text\" name='email' placeholder=\"email\" class=\"sign__email\" value='' required>\n          <input type=\"text\" name='nickname' placeholder=\"nickname\" class=\"sign__nickname\" value='' required>\n          <input type=\"text\" name='password' placeholder=\"password\" class=\"sign__password\" value='' required>\n          <input type=\"text\" placeholder=\"confirm password\" class=\"sign__password confirm\" value='' required>\n          <p class='sign__wrong sign__title'>WRONG</p>\n          <button class=\"sign__button\">Sign-Up</button>\n          <div class='sign__social'>\n            <div><img src=").concat(_facebook.default, " alt=\"\"></div>\n            <div><img src=").concat(_twitter.default, " alt=\"\"/></div>\n            <div><img src=").concat(_google.default, " alt=\"\"></div>\n            <div><img src=").concat(_vk.default, " alt=\"\"></div>\n          </div>\n          <a href=\"#\" class='sign__exist sign__button'>I'M ALREADY HAVE ACCOUNT</a>\n        </form>\n      </div>\n      ");
       this.formSignUp = document.querySelector('.sign-up');
       this.formSignUp.addEventListener('submit', this.checkSignUp.bind(this));
       document.querySelector('.sign__exist').addEventListener('click', this.renderSignIn.bind(this));
@@ -1184,7 +1186,7 @@ var Sign = /*#__PURE__*/function (_Modal) {
   }, {
     key: "renderSignIn",
     value: function renderSignIn() {
-      this.modalContainer.innerHTML = "\n      <div class=\"modal__close-button\"><img src=".concat(_close_white.default, " alt=\"\"></div>\n      <div class=\"modal__wrapper-sign\">\n        <form action=\"\" class=\"sign sign-in\">\n          <p class='sign__title'>WELCOME to the world of baskettball courts in Minsk</p>\n          <h2>Enter in your account</h2>\n          <input type=\"text\" name='email' placeholder=\"email\" class=\"sign__email\" value='sddddf@sdf.by' required>\n          <input type=\"text\" name='password' placeholder=\"password\" class=\"sign__password\" value='asdasdasd' required>\n          <p class='sign__wrong sign__title'>WRONG</p>\n          <button class=\"sign__button\">Sign-In</button>\n          <div class='sign__social'>\n            <div><img src=").concat(_facebook.default, " alt=\"\"></div>\n            <div><img src=").concat(_twitter.default, " alt=\"\"/></div>\n            <div><img src=").concat(_google.default, " alt=\"\"></div>\n            <div><img src=").concat(_vk.default, " alt=\"\"></div>\n          </div>\n          <a href=\"#\" class='sign__exist-not sign__button'>I DON'T HAVE ACCOUNT YET</a>\n        </form>\n      </div>\n      ");
+      this.modalContainer.innerHTML = "\n      <div class=\"modal__close-button\"><img src=".concat(_close_white.default, " alt=\"\"></div>\n      <div class=\"modal__wrapper-sign\">\n        <form action=\"\" class=\"sign sign-in\">\n          <p class='sign__title'>WELCOME to the world of baskettball courts in Minsk</p>\n          <h2>Enter in your account</h2>\n          <input type=\"text\" name='email' placeholder=\"email\" class=\"sign__email\" value='' required>\n          <input type=\"text\" name='password' placeholder=\"password\" class=\"sign__password\" value='' required>\n          <p class='sign__wrong sign__title'>WRONG</p>\n          <button class=\"sign__button\">Sign-In</button>\n          <div class='sign__social'>\n            <div><img src=").concat(_facebook.default, " alt=\"\"></div>\n            <div><img src=").concat(_twitter.default, " alt=\"\"/></div>\n            <div><img src=").concat(_google.default, " alt=\"\"></div>\n            <div><img src=").concat(_vk.default, " alt=\"\"></div>\n          </div>\n          <a href=\"#\" class='sign__exist-not sign__button'>I DON'T HAVE ACCOUNT YET</a>\n        </form>\n      </div>\n      ");
       this.formSignIn = document.querySelector('.sign-in');
       this.formSignIn.addEventListener('submit', this.checkSignIn.bind(this));
       document.querySelector('.sign__exist-not').addEventListener('click', this.renderSignUp.bind(this));
@@ -1236,7 +1238,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52140" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50294" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
