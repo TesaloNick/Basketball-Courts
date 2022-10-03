@@ -1,8 +1,14 @@
+html,
+body {
+  height: 100%;
+}
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif !important;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
@@ -12,6 +18,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  flex: 1 1 auto;
+  height: 100%;
 
   @media (max-width: 1230px) {
     max-width: 100%;
