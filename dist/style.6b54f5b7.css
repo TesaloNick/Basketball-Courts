@@ -20,7 +20,6 @@ body {
   flex-direction: column;
   gap: 20px;
   flex: 1 1 auto;
-  height: 100%;
 }
 @media (max-width: 1230px) {
   .container {
@@ -232,7 +231,7 @@ body {
   height: 100%;
   position: relative !important;
   overflow: visible !important;
-  animation: openMap 3s ease-in-out;
+  animation: openMap 1s ease-in-out;
 }
 #map .mapboxgl-control-container .mapboxgl-ctrl-top-right {
   right: auto !important;
